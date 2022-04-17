@@ -9,6 +9,6 @@ int main()
     int b=2+3;
     cout<<a<<endl<<b<<endl;
 
-    
+
     return 0;
 }
