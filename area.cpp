@@ -9,7 +9,7 @@ int main()
     while (flag)
     {
         // string did not work
-        // վերագրվում է դատարկ սիմվոլ, որպեսզի 60֊րդ տողում շարունակելու (yes) դեպքում "figure" չպահի նախկին արժեքը
+        // assigned a default character, in case of continuation in line 60 (yes) "figure" does not keep the previous value
         char figure = ' ';
 
         cout<<"Which area do you whant? \n";
