@@ -6,7 +6,7 @@ int main()
 {
     int a[] = {10, 20, 30, 40, 50, 60, 10, 20, 30, 40, 50, 30, 90}; //100, 110, 120, 130, 140};
     int size = sizeof(a)/sizeof(a[0]);
-    int len_diapazon = 1;
+    int len_range = 1;
     int max = 0;
     int index = 0;
     
@@ -14,18 +14,18 @@ int main()
   
         if (a[i] < a[i + 1]){
 
-            len_diapazon ++;
+            len_range ++;
 
-            if(len_diapazon > max){
+            if(len_range > max){
                 
-                max = len_diapazon;
+                max = len_range;
                 index = i + 1;
                 
             }  
 
         }else{
             
-            len_diapazon = 1;
+            len_range = 1;
         }  
         
     }
