@@ -53,7 +53,6 @@ int main()
     for (int i: b){
         cout << i << endl;
     }
-
-    
+   
     return 0;
 }
