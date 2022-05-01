@@ -10,26 +10,28 @@ int main(){
     int b[size] = {0};
     int index = 0;
 
+    // Filling b array
+
     for(int i = 0; i < size; i++){
-        //bool not_contain = true;
+        
         int j;
         for(j = 0; j < index; j++){
 
             if(a[i] == b[j]){
-                //not_contain = false;
+               
                 break;
             }
         }
 
         if(j == index){
             
-            b[index] = a[i];
-            index++;
+            b[index++] = a[i];
         }
     }
 
     /////////////////////////////////////////////////////////
 
+    // Filling c array
     int c[index];
     
 
@@ -48,13 +50,28 @@ int main(){
         
     }
 
+    //////////////////////////////////////////////////////////
+    
+    // print with sorted frequency
+    int max_index = 0;
 
     for(int i = 0; i < index; i++){
-        cout << b[i] << "\t" << c[i]<<endl;
+
+        int max = c[0];
+
+        for(int j = 0; j < index; j++){
+
+            if(c[j] > max){
+                max = c[j];
+                max_index = j;  
+            } 
+        }
+
+        cout << b[max_index] << "\t" << c[max_index]<<endl;
+
+        c[max_index] = 0;
+       
     }
-
-
-
 
     return 0;
 }
