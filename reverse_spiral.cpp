@@ -15,26 +15,26 @@ int main(){
 
     int x = row * col;
     int rowStart = 0;
-    int rowEnd = col - 1;
+    int rowEnd = row - 1;
     int colStart = 0;
-    int colEnd = row - 1;
+    int colEnd = col - 1;
 
     while(x > 0){
 
-        for (int i = rowStart; i <= rowEnd and x > 0; i++){
-            a[colStart][i] = x--;
+        for (int i = colStart; i <= colEnd and x > 0; i++){
+            a[rowStart][i] = x--;
         }
 
-        for(int i = colStart + 1; i <= colEnd and x > 0; i++){
-            a[i][rowEnd] = x--;
+        for(int i = rowStart + 1; i <= rowEnd and x > 0; i++){
+            a[i][colEnd] = x--;
         }
 
-        for(int i = rowEnd - 1; i >= rowStart and x > 0; i--){
-            a[colEnd][i] = x--;
+        for(int i = colEnd - 1; i >= colStart and x > 0; i--){
+            a[rowEnd][i] = x--;
         }
 
-        for(int i = colEnd - 1; i > colStart and x > 0; i--){
-            a[i][rowStart] = x--;
+        for(int i = rowEnd - 1; i > rowStart and x > 0; i--){
+            a[i][colStart] = x--;
         }
 
         rowStart++;
