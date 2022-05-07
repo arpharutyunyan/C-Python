@@ -2,18 +2,13 @@
 
 using namespace std;
 
-int main()
-{
-    int a[] = {100, 90, 80, 70, 60, 50, 40, 30, 20, 10};
-    int len = sizeof(a)/sizeof(a[0]);
-    int count = 0;
-    int count_swap = 0;
-    
+void shaker_sort(int a[], int len){
+
     bool b = true;
     int count_while = 0;
+    int count = 0;
     
     while(b){
-        
         
         b = false;
     
@@ -25,8 +20,6 @@ int main()
                 int temp = a[j];
                 a[j] = a[j + 1];
                 a[j + 1] = temp;
-                
-                count_swap ++;
                 b = true;
             } 
    
@@ -34,12 +27,25 @@ int main()
         
         count_while++;
     }
-    
+}
+
+
+void print_arr(int a[], int len){
+
     for(int i = 0; i < len; i++){
         cout << a[i] << endl;
     }
-    
-    cout << count << endl << count_swap<<endl;
+}
+
+int main()
+{
+    int a[] = {100, 90, 80, 70, 60, 50, 40, 30, 20, 10};
+
+    int len = sizeof(a)/sizeof(a[0]);
+
+    shaker_sort(a, len);
+    print_arr(a, len);
+
 
     return 0;
 }
