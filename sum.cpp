@@ -14,7 +14,7 @@ int summer(int arr[], int len){
 // count sum of given range
 int summer(int number){
 
-    if(number ==1){
+    if(number == 1){
         return 1;
     }
 
