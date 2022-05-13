@@ -5,17 +5,16 @@ using namespace std;
 void st_sort(int a[], int len){
     int count = 0;
 
-    
     for(int i = 0; i < len - 1 ; i++){
-        count ++;
-        
-        if(a[i] > a[i + 1]){
-            int temp = a[i];
-            a[i] = a[i + 1];
-            a[i + 1] = temp;
-            i = -1;
-        }
+        for(int j = 0; j < len - 1 ; j++){
+            
+            if(a[j] > a[j + 1]){
+                int temp = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = temp;
+            }
 
+        }
     }
 
 }
@@ -23,7 +22,7 @@ void st_sort(int a[], int len){
 void print_arr(int a[], int len){
 
     for(int i = 0; i < len; i++){
-        cout << a[i] << endl;
+        cout << a[i] << "\t";
     }
     
 }

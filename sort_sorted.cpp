@@ -32,19 +32,17 @@ void sort(int a[], int len){
 
 void sort(int a[], int len, string sort_name){
     cout << "stupid" << endl;
-    int count = 0;
 
-    
     for(int i = 0; i < len - 1 ; i++){
-        count ++;
-        
-        if(a[i] > a[i + 1]){
-            int temp = a[i];
-            a[i] = a[i + 1];
-            a[i + 1] = temp;
-            i = -1;
-        }
+        for(int j = 0; j < len - 1 ; j++){
+            
+            if(a[j] > a[j + 1]){
+                int temp = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = temp;
+            }
 
+        }
     }
 
 }
