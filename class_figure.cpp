@@ -6,14 +6,6 @@ class Square{
     private:
         float length;
 
-        float perimeter(float l){
-            return 4 * l;
-        }
-
-        float area(float l){
-            return l * l;
-        }
-
     public:
 
         Square(float l){
@@ -26,11 +18,11 @@ class Square{
         // }
 
         float getPerimeter(){
-            return perimeter(length);
+            return 4 * length;
         }
 
         float getArea(){
-            return area(length);
+            return length * length;
         }
 
         void print(){
@@ -44,15 +36,6 @@ class Rectangular{
     private:
         float length, width;
 
-        float perimeter(float l, float w){
-            return 2 * (l + w);
-        }
-
-        float area(float l, float w){
-            return l * w;
-        }
-
-
     public:
         Rectangular(float l, float w){
             cout << "\n-----Constructor of rectangular-----" << endl;
@@ -61,11 +44,11 @@ class Rectangular{
         }
 
         float getPerimeter(){
-            return perimeter(length, width);
+            return 2 * (length + width);
         }
 
         float getArea(){
-            return area(length, width);
+            return length * width;
         }
 
         void print(){
@@ -80,14 +63,6 @@ class Circle{
         const float P = 3.14;
         float radius;
 
-        float length(float r){
-            return 2 * P * r;
-        }
-
-        float area(float r){
-            return P * r * r;
-        }
-
     public:
 
         Circle(float r){
@@ -96,11 +71,11 @@ class Circle{
         }
 
         float getLength(){
-            return length(radius);
+            return 2 * P * radius;
         }
 
         float getArea(){
-            return area(radius);
+            return P * radius * radius;
         }
 
         void print(){
