@@ -1,6 +1,14 @@
 #include <iostream>
 using namespace std;
 
+/*
+    LIFO    push_front  ->  pop_front
+            push_back   ->  pop_back
+
+    FIFO    push_back   ->  pop_front
+*/
+
+
 class Dequeue{
     private:
         int a[5];
