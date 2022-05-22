@@ -134,7 +134,7 @@ class LinkedList{
         //-----------get-------------------------
         int get(int n){
             if(n > index){
-                cout << " WARNING!!!!   segmentation fault \n"; 
+                cout << " WARNING!!!   segmentation fault :( \n"; 
                 return -1;
             }
 
@@ -154,16 +154,16 @@ int main(){
 
     LinkedList ll;
     for(int i = 0; i < 5; i++){
-        ll.push_front(i);
-        //ll.push_back(i);
+        //ll.push_front(i);
+        ll.push_back(i);
     }
 
     ll.print();
     cout << "LinkedList = " << ll.get(5) << endl << endl;
 
     for(int i = 0; i < 3; i++){
-        //cout << "pop = " << ll.pop_back() << endl;
-        cout << "pop = " << ll.pop_front() << endl;
+        cout << "pop = " << ll.pop_back() << endl;
+        //cout << "pop = " << ll.pop_front() << endl;
     }
 
     ll.print();
