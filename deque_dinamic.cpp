@@ -1,14 +1,6 @@
 #include <iostream>
 using namespace std;
 
-/*
-    LIFO    push_front  ->  pop_front
-            push_back   ->  pop_back
-
-    FIFO    push_back   ->  pop_front
-*/
-
-
 class Deque{
     private:
         int* p;
@@ -43,9 +35,7 @@ class Deque{
                     p[len / 2 + i ] = temp[i];
 
                 }
-                end = len / 2;
-                front = end; 
-                return;
+                front = len / 2; // array added front the base array, thats why var front = len / 2
 
             }else if(front == -1){  // if the first element: index = 0
                 front = end = 0;
@@ -67,16 +57,13 @@ class Deque{
                     p[i] = temp[i];
 
                 }
-                return;
-
+                end++;
             }else if(end == -1){
                 front = end = 0;
-            }else if (end == len - 1){ // if index = 4 the after index = 5
-                end == 0;
             }else{
                 end++;
             }
-            p[end] == n;
+            p[end] = n;
         }
 
         int pop_front(){
@@ -95,8 +82,8 @@ class Deque{
         
         int pop_back(){
             if(isEmpty()){
-                cout << "deque is empty \n";
                 return -1;
+                cout << "deque is empty \n";
             }else if(front == end){
                 front = end = -1; 
                 return p[end + 1];  
