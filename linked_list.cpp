@@ -47,16 +47,13 @@ class LinkedList{
     
             int res = tail -> value;
             len--;
-            if(tail -> previous != head){  
+            if(tail != head){  
                 
-                Node* new_tail = tail -> previous;   //if tail.previous == head  new_tail == nullptr
-                tail -> previous = nullptr;   
-                new_tail -> next = nullptr;  // if new_tail == nullptr  give segmentation fault
-                tail = new_tail;
+                tail = tail -> previous;   
+                tail -> next = nullptr; 
                 return res;
             }
 
-            tail -> next = nullptr;
             tail = head = nullptr;
             return res; 
         }
@@ -78,23 +75,20 @@ class LinkedList{
 
         int pop_front(){
             if(isEmpty()){
-                cout << "pop back is empty \n"; 
+                cout << "pop front is empty \n"; 
                 return -1;
             }
 
             int res = head -> value;
             len--;
 
-            if(head -> next != tail){  
+            if(head != tail){  
                 
-                Node* new_head = head -> next;   //if head -> next == tail  new_head == nullptr
-                head -> next = nullptr;   
-                new_head -> previous = nullptr;  // if new_head == nullptr  give segmentation fault
-                head = new_head;
+                head = head -> next;  
+                head -> previous = nullptr;
                 return res;
             }
 
-            head -> previous = nullptr;
             tail = head = nullptr;
             return res;
         }
@@ -103,25 +97,20 @@ class LinkedList{
         // -----------  pop by index -------------
         int pop_by_index(int n){
             if(isEmpty() || n<0 || n> len){
-                cout << "nothing to print \n";
+                cout << "is empty \n";
                 return -1;
             }
 
             Node* node = getNode(n);
 
             if(node == tail){
-                cout << "tail \n";
-                node -> previous -> next = nullptr;
-                tail = node -> previous;
-                return node -> value;
+                return pop_back();
             }else if (node == head){
-                node -> next -> previous = nullptr;
-                int res = node -> value;
-                head = node -> next;
-                return res;
+                return pop_front();
             }else{
                 node -> previous -> next = node -> next;
                 node -> next -> previous = node -> previous;
+                len--;
                 return node -> value;
             }
         }
@@ -130,25 +119,19 @@ class LinkedList{
         //--------------- insert --------------------
         void insert(int n, int index){
 
-            if(isEmpty()){
-                cout << "is empty\n";
-                return;
-            }
-            
             Node* node = getNode(index);
-            Node* addedNode;
+            Node* addedNode = new Node(n);
             if(index == 0){
                 push_front(n);
-            }else if(index == len){
+            }else if(index == len + 1){
                 push_back(n);
             }else{
-                addedNode -> value = n;
-                addedNode -> previous = node -> previous -> next;
-                addedNode -> next = node;
-                
+                addedNode -> previous = node -> previous;
+                addedNode -> next = node; 
+                node -> previous -> next = addedNode; 
+                node -> previous = addedNode;
+                len++; 
             }
-
-
         }
 
         //----------------print-------------------
@@ -188,11 +171,7 @@ class LinkedList{
                 return -1;
             }
 
-            Node* node = head;
-            for(int i = 0; i < n; i++){
-                node = node -> next;
-            }
-
+            Node* node = getNode(n);
             return node -> value;
 
         }
@@ -203,10 +182,7 @@ class LinkedList{
                 return -1;
             }
 
-            Node* node = head;
-            for(int i = 0; i < n; i++){
-                node = node -> next;
-            }
+            Node* node = getNode(n);
 
             return node -> value;
 
@@ -234,25 +210,24 @@ int main(){
 
     LinkedList ll;
     for(int i = 0; i < 5; i++){
-        //ll.push_front(i);
-        ll.push_back(i);
+        ll.push_front(i);
+        // ll.push_back(i);
     }
 
     ll.print();
     //ll.print_reverse();
-    //cout << "LinkedList = " << ll.get(5) << endl << endl;
+    // cout << "LinkedList = " << ll.get(4) << endl << endl;
     //cout << "LinkedList = " << ll[2] << endl << endl;
-    //cout << "LinkedList = " << ll.pop_by_index(4) << endl << endl;
+    // cout << "LinkedList = " << ll.pop_by_index(5) << endl << endl;
     ll.insert(100, 3);
-    ll.print();
-    ll.print_reverse();
-
+    
     // for(int i = 0; i < 5; i++){
-    //     cout << "pop = " << ll.pop_back() << endl;
-    //     //cout << "pop = " << ll.pop_front() << endl;
+    //     // cout << "pop = " << ll.pop_back() << endl;
+    //     cout << "pop = " << ll.pop_front() << endl;
     // }
 
-    // ll.print();
-    // ll.print_reverse();
+    ll.print();
+
+    ll.print_reverse();
     return 0;
 }
