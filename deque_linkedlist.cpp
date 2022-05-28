@@ -13,7 +13,7 @@ class Node{
         }
 };
 
-class Stack{
+class Deque{
 
     public:
         Node* head = nullptr;
@@ -106,17 +106,17 @@ class Stack{
 
 int main(){
 
-    Stack st;
+    Deque dq;
     for(int i = 0; i < 5; i++){
         // st.push_front(i);
-        st.push_back(i);
+        dq.push_back(i);
     }
 
-    st.print();
+    dq.print();
 
     for(int i = 0; i < 5; i++){
         // cout << "pop = " << st.pop_back() << endl;
-        cout << "pop = " << st.pop_front() << endl;
+        cout << "pop = " << dq.pop_front() << endl;
     }
 
     return 0;

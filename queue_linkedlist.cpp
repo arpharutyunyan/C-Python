@@ -13,7 +13,7 @@ class Node{
         }
 };
 
-class Stack{
+class Queue{
 
     public:
         Node* head = nullptr;
@@ -76,15 +76,15 @@ class Stack{
 
 int main(){
 
-    Stack st;
+    Queue q;
     for(int i = 0; i < 5; i++){
-        st.push(i);
+        q.push(i);
     }
 
-    st.print();
+    q.print();
 
     for(int i = 0; i < 5; i++){
-        cout << "pop = " << st.pop() << endl;
+        cout << "pop = " << q.pop() << endl;
     }
 
     return 0;
