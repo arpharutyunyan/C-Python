@@ -19,6 +19,16 @@ class Stack{
         Node* head = nullptr;
         Node* tail = nullptr;
 
+        ~Stack(){
+
+            while (head!=tail){
+                head = head -> next;
+                delete head -> previous;
+            }
+            delete head;
+  
+        }
+
         bool isEmpty(){
             return head == nullptr;
         }
@@ -43,14 +53,16 @@ class Stack{
             }
     
             int res = tail -> value;
-            if(tail != head){  
+            if(tail->previous != nullptr){  
                 
-                tail = tail -> previous;   
+                tail = tail -> previous; 
+                delete tail -> next; 
                 tail -> next = nullptr; 
                 return res;
             }
 
-            tail = head = nullptr;
+            delete tail;
+            tail = nullptr;
             return res; 
         }
 
@@ -80,11 +92,13 @@ int main(){
         st.push(i);
     }
 
-    st.print();
+    // st.print();
 
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 3; i++){
         cout << "pop = " << st.pop() << endl;
     }
+
+    // st.print();
 
     return 0;
 }

@@ -15,9 +15,16 @@ class Node{
 
 class Deque{
 
+
     public:
         Node* head = nullptr;
         Node* tail = nullptr;
+
+        ~Deque(){
+            for(Node* h=head; h; h=h->next){
+                delete h;
+            }
+        }
 
         bool isEmpty(){
             return head == nullptr;
@@ -45,12 +52,14 @@ class Deque{
             int res = tail -> value;
             if(tail != head){  
                 
-                tail = tail -> previous;   
+                tail = tail -> previous;
+                delete tail -> next;
                 tail -> next = nullptr; 
                 return res;
             }
 
-            tail = head = nullptr;
+            delete tail;
+            tail = nullptr;
             return res; 
         }
 
@@ -76,11 +85,13 @@ class Deque{
             if(head != tail){  
                 
                 head = head -> next;  
+                delete head -> previous;
                 head -> previous = nullptr;
                 return res;
             }
 
-            tail = head = nullptr;
+            delete head;
+            head = nullptr;
             return res;
         }
 
@@ -108,14 +119,14 @@ int main(){
 
     Deque dq;
     for(int i = 0; i < 5; i++){
-        // st.push_front(i);
-        dq.push_back(i);
+        dq.push_front(i);
+        // dq.push_back(i);
     }
 
     dq.print();
 
-    for(int i = 0; i < 5; i++){
-        // cout << "pop = " << st.pop_back() << endl;
+    for(int i = 0; i < 3; i++){
+        // cout << "pop = " << dq.pop_back() << endl;
         cout << "pop = " << dq.pop_front() << endl;
     }
 

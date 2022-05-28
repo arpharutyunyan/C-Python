@@ -19,6 +19,13 @@ class Queue{
         Node* head = nullptr;
         Node* tail = nullptr;
 
+        ~Queue(){
+            for(Node* h=head; h; h=h->next){
+                delete h;
+            }
+        }
+
+
         bool isEmpty(){
             return head == nullptr;
         }
@@ -46,11 +53,13 @@ class Queue{
             if(head != tail){  
                 
                 head = head -> next;  
+                delete head -> previous;
                 head -> previous = nullptr;
                 return res;
             }
 
-            tail = head = nullptr;
+            delete head;
+            head = nullptr;
             return res;
         }
 
@@ -83,7 +92,7 @@ int main(){
 
     q.print();
 
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 3; i++){
         cout << "pop = " << q.pop() << endl;
     }
 

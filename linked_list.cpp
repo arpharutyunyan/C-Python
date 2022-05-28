@@ -20,6 +20,12 @@ class LinkedList{
         Node* tail = nullptr;
         int len = -1;  // start from 0 index like arrays and count the length linkedlist
 
+        ~LinkedList(){
+            for(Node* h=head; h; h=h->next){
+                delete h;
+            }
+        }
+
         bool isEmpty(){
             return head == nullptr;
         }
@@ -49,12 +55,16 @@ class LinkedList{
             len--;
             if(tail != head){  
                 
-                tail = tail -> previous;   
+                tail = tail -> previous; 
+                delete tail -> next;  
                 tail -> next = nullptr; 
+                
                 return res;
             }
 
+            delete tail;
             tail = head = nullptr;
+            
             return res; 
         }
 
@@ -85,11 +95,14 @@ class LinkedList{
             if(head != tail){  
                 
                 head = head -> next;  
+                delete head -> previous;
                 head -> previous = nullptr;
                 return res;
             }
 
+            delete head;
             tail = head = nullptr;
+            
             return res;
         }
 
@@ -210,21 +223,21 @@ int main(){
 
     LinkedList ll;
     for(int i = 0; i < 5; i++){
-        ll.push_front(i);
-        // ll.push_back(i);
+        // ll.push_front(i);
+        ll.push_back(i);
     }
 
     ll.print();
-    //ll.print_reverse();
-    // cout << "LinkedList = " << ll.get(4) << endl << endl;
-    //cout << "LinkedList = " << ll[2] << endl << endl;
-    // cout << "LinkedList = " << ll.pop_by_index(5) << endl << endl;
-    ll.insert(100, 3);
+    // //ll.print_reverse();
+    // // cout << "LinkedList = " << ll.get(4) << endl << endl;
+    // //cout << "LinkedList = " << ll[2] << endl << endl;
+    // // cout << "LinkedList = " << ll.pop_by_index(5) << endl << endl;
+    // ll.insert(100, 3);
     
-    // for(int i = 0; i < 5; i++){
-    //     // cout << "pop = " << ll.pop_back() << endl;
-    //     cout << "pop = " << ll.pop_front() << endl;
-    // }
+    for(int i = 0; i < 2; i++){
+        cout << "pop = " << ll.pop_back() << endl;
+        // cout << "pop = " << ll.pop_front() << endl;
+    }
 
     ll.print();
 
