@@ -21,9 +21,12 @@ class Deque{
         Node* tail = nullptr;
 
         ~Deque(){
-            for(Node* h=head; h; h=h->next){
-                delete h;
+
+            while (head!=tail){
+                head = head -> next;
+                delete head -> previous;
             }
+            delete head;
         }
 
         bool isEmpty(){
@@ -105,10 +108,13 @@ class Deque{
                 return;
             }
             
-            for(Node* h = head; h != nullptr; h = h -> next){
+            
+            for(Node* h = head; h != tail; h = h -> next){
                 cout << "value = " << h -> value << "\t";
                 
             } 
+
+            cout << "value = " << tail -> value << "\t";
 
             cout << endl << endl;   
         }

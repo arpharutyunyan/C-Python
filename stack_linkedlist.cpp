@@ -92,7 +92,7 @@ int main(){
         st.push(i);
     }
 
-    // st.print();
+    // st.print();  // running print() function gives error in valgrind: for() loops touch tail->next = nullptr
 
     for(int i = 0; i < 3; i++){
         cout << "pop = " << st.pop() << endl;

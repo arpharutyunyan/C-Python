@@ -5,12 +5,16 @@ class Stack{
     private:
         int len = 5;
         int* p;
-        int index = 0;
+        int index = 0;  // show in which element function stop
 
     public:
 
         Stack(){
             p = new int[len];
+        }
+
+        ~Stack(){
+            delete[] p;
         }
 
         void push(int n){
@@ -62,7 +66,7 @@ int main(){
     cout << "empty " << st.isEmpty() << endl;
     cout << "len =  " << st.getLen() << endl;
 
-     for(int i = 0; i < 5; i++){
+     for(int i = 0; i < 2; i++){
         cout << "pop " << st.pop() << endl;
     }
    

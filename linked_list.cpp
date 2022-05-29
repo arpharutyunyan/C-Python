@@ -21,9 +21,12 @@ class LinkedList{
         int len = -1;  // start from 0 index like arrays and count the length linkedlist
 
         ~LinkedList(){
-            for(Node* h=head; h; h=h->next){
-                delete h;
+            for(head; head!=tail;){
+                head = head -> next;
+                delete head -> previous;
             }
+
+            delete tail;
         }
 
         bool isEmpty(){
@@ -106,29 +109,6 @@ class LinkedList{
             return res;
         }
 
-
-        // -----------  pop by index -------------
-        int pop_by_index(int n){
-            if(isEmpty() || n<0 || n> len){
-                cout << "is empty \n";
-                return -1;
-            }
-
-            Node* node = getNode(n);
-
-            if(node == tail){
-                return pop_back();
-            }else if (node == head){
-                return pop_front();
-            }else{
-                node -> previous -> next = node -> next;
-                node -> next -> previous = node -> previous;
-                len--;
-                return node -> value;
-            }
-        }
-
-
         //--------------- insert --------------------
         void insert(int n, int index){
 
@@ -178,17 +158,7 @@ class LinkedList{
         }
 
         //-----------get-------------------------
-        int get(int n){
-            if(n > len){
-                cout << " WARNING!!!   segmentation fault :( \n"; 
-                return -1;
-            }
-
-            Node* node = getNode(n);
-            return node -> value;
-
-        }
-
+        
         int operator[](int n){
             if(n > len){
                 cout << " WARNING!!!   segmentation fault :( \n"; 
@@ -227,20 +197,15 @@ int main(){
         ll.push_back(i);
     }
 
-    ll.print();
-    // //ll.print_reverse();
-    // // cout << "LinkedList = " << ll.get(4) << endl << endl;
-    // //cout << "LinkedList = " << ll[2] << endl << endl;
-    // // cout << "LinkedList = " << ll.pop_by_index(5) << endl << endl;
-    // ll.insert(100, 3);
-    
+    // ll.print();
+
     for(int i = 0; i < 2; i++){
         cout << "pop = " << ll.pop_back() << endl;
         // cout << "pop = " << ll.pop_front() << endl;
     }
 
-    ll.print();
+    // ll.print();
 
-    ll.print_reverse();
+    // ll.print_reverse();
     return 0;
 }
