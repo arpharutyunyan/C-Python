@@ -13,6 +13,10 @@ class Queue{
             p = new int[len];
         }
 
+        ~Queue(){
+            delete[] p;
+        }
+
         void push(int n){
             if(isFull()){
                 int* temp = p;
@@ -34,7 +38,6 @@ class Queue{
             }
             
             return p[new_index];
-            //return a[new_index];
         }
 
         bool isEmpty(){
@@ -58,7 +61,7 @@ int main(){
     cout << "empty " << qu.isEmpty() << endl;
     cout << "len =  " << qu.getLen() << endl;
     
-    for(int i = 0; i < 7; i++){
+    for(int i = 0; i < 5; i++){
         qu.push(i);
     }
     

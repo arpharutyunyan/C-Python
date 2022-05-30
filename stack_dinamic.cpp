@@ -11,6 +11,7 @@ class Stack{
 
         Stack(){
             p = new int[len];
+            
         }
 
         ~Stack(){
@@ -18,7 +19,7 @@ class Stack{
         }
 
         void push(int n){
-            if(isFull()){
+            if(isFull()){  // if the array is full, add more length 
                 int* temp = p;
                 len *= 2;
                 p = new int[len];
@@ -48,7 +49,6 @@ class Stack{
             return len;
         }
 
-
 };
 
 int main(){
@@ -58,7 +58,7 @@ int main(){
     cout << "empty " << st.isEmpty() << endl;
     cout << "len =  " << st.getLen() << endl;
     
-    for(int i = 0; i < 7; i++){
+    for(int i = 0; i < 9; i++){   // to fill array   len = 5
         st.push(i);
     }
     
@@ -66,7 +66,7 @@ int main(){
     cout << "empty " << st.isEmpty() << endl;
     cout << "len =  " << st.getLen() << endl;
 
-     for(int i = 0; i < 2; i++){
+    for(int i = 0; i < 1; i++){
         cout << "pop " << st.pop() << endl;
     }
    
