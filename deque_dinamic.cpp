@@ -39,7 +39,7 @@ class Deque{
                     p[len / 2 + i ] = temp[i];
 
                 }
-                delete[] temp;
+                delete[] temp;   // delete the temp pointer is clear the all memory
                 front = len / 2; // array added front the base array, thats why var front = len / 2
 
             }else if(front == -1){  // if the first element: index = 0

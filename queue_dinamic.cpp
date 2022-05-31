@@ -26,7 +26,7 @@ class Queue{
                     p[i] = temp[i];
 
                 }
-                delete[] temp;
+                delete[] temp;   // delete the temp pointer is clear the all memory
             }
             p[index_push++] = n;    
         }
