@@ -5,8 +5,8 @@ class Node{
 
     public:
         int value;
-        Node* previous;
-        Node* next;
+        Node* previous = nullptr;
+        Node* next = nullptr;
 
         Node(int n){
             value = n;
@@ -21,12 +21,13 @@ class Deque{
         Node* tail = nullptr;
 
         ~Deque(){
-
-            while (head!=tail){
-                head = head -> next;
-                delete head -> previous;
+            if(!isEmpty()){
+                while (head!=tail){
+                    head = head -> next;
+                    delete head -> previous;
+                }
+                delete head;
             }
-            delete head;
         }
 
         bool isEmpty(){
@@ -76,6 +77,7 @@ class Deque{
                 temp -> next = head;
                 head = temp;
             }
+            delete[] temp;
         }
 
         int pop_front(){

@@ -5,8 +5,8 @@ class Node{
 
     public:
         int value;
-        Node* previous;
-        Node* next;
+        Node* previous = nullptr;
+        Node* next = nullptr;
 
         Node(int n){
             value = n;
@@ -20,12 +20,13 @@ class Queue{
         Node* tail = nullptr;
 
         ~Queue(){
-
-            while (head!=tail){
-                head = head -> next;
-                delete head -> previous;
+            if(!isEmpty()){
+                while (head!=tail){
+                    head = head -> next;
+                    delete head -> previous;
+                }
+                delete head;
             }
-            delete head;
         }
 
 
@@ -93,7 +94,7 @@ int main(){
         q.push(i);
     }
 
-    // q.print();
+    q.print();
 
     for(int i = 0; i < 3; i++){
         cout << "pop = " << q.pop() << endl;

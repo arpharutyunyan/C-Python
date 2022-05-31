@@ -4,9 +4,9 @@ using namespace std;
 class Node{
 
     public:
-        int value;
-        Node* previous;
-        Node* next;
+        int value = 0;
+        Node* previous = nullptr;
+        Node* next = nullptr;
 
         Node(int n){
             value = n;
@@ -16,17 +16,43 @@ class Node{
 class LinkedList{
 
     public:
+
         Node* head = nullptr;
         Node* tail = nullptr;
-        int len = -1;  // start from 0 index like arrays and count the length linkedlist
+        int len = 0;
+       
+        LinkedList(){
+            cout << "Non argument" << endl;
+        }
 
-        ~LinkedList(){
-            for(head; head!=tail;){
-                head = head -> next;
-                delete head -> previous;
+        LinkedList(const LinkedList& copy_list){
+            
+            Node* h = copy_list.head;
+            while (h!=nullptr){
+                push_back(h -> value);
+                h = h -> next;
+            }
+        }
+
+        LinkedList& operator=(const LinkedList& copy_list){
+
+            Node* h = copy_list.head;
+            while (h!=nullptr){
+                push_back(h -> value);
+                h = h -> next;
             }
 
-            delete tail;
+            return *this;
+        }
+        
+        ~LinkedList(){
+            if(!isEmpty()){
+                while (head!=tail){
+                    head = head -> next;
+                    delete head -> previous;
+                }
+                delete head;
+            }
         }
 
         bool isEmpty(){
@@ -159,8 +185,13 @@ class LinkedList{
 
         //-----------get-------------------------
         
+
+        int getLen(){
+            return len;
+        }
+
         int operator[](int n){
-            if(n > len){
+            if(n > len - 1){
                 cout << " WARNING!!!   segmentation fault :( \n"; 
                 return -1;
             }
@@ -185,6 +216,26 @@ class LinkedList{
 
             return node;
         }
+
+
+        bool operator==(LinkedList second){
+            if(len  != second.getLen()){
+                return false;
+            }
+
+            Node* temp1 = head;
+            Node* temp2 = second.head;
+            for(int i = 0; i < len; i++){
+                cout << "temp1" << temp1 -> value << "\t";
+                if(temp1 -> value != temp2->value){
+                    return false;
+                }
+                temp1 = temp1 -> next;
+                temp2 = temp2 -> next;
+
+            }
+            return true;
+        }
 };
 
 
@@ -197,15 +248,41 @@ int main(){
         ll.push_back(i);
     }
 
+    cout << "len = " << ll.getLen() << endl;
+    // cout << "get = " << ll[4] << endl;
+
+
+    LinkedList second;
+
+    second = ll;
+    cout << "len = " << second.getLen() << endl;
+    ll.print();
+    second.print();
+    // for(int i = 0; i < 5; i++){
+    //     // ll.push_front(i);
+    //     second.push_back(i);
+    // }
+
+
+    // cout << "len = " << second.getLen() << endl;
+    // if(ll == second){
+    //     cout << "Is equals" << endl;
+    // }else{
+    //     cout << "Is not equals" << endl;
+    // }
+
+
+
     // ll.print();
 
-    for(int i = 0; i < 2; i++){
-        cout << "pop = " << ll.pop_back() << endl;
-        // cout << "pop = " << ll.pop_front() << endl;
-    }
+    // for(int i = 0; i < 2; i++){
+    //     cout << "pop = " << ll.pop_back() << endl;
+    //     // cout << "pop = " << ll.pop_front() << endl;
+    // }
 
     // ll.print();
 
     // ll.print_reverse();
     return 0;
+
 }

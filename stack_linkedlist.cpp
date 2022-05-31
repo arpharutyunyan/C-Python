@@ -5,8 +5,8 @@ class Node{
 
     public:
         int value;
-        Node* previous;
-        Node* next;
+        Node* previous = nullptr;
+        Node* next = nullptr;
 
         Node(int n){
             value = n;
@@ -20,13 +20,13 @@ class Stack{
         Node* tail = nullptr;
 
         ~Stack(){
-
-            while (head!=tail){
-                head = head -> next;
-                delete head -> previous;
+            if(!isEmpty()){
+                while (head!=tail){
+                    head = head -> next;
+                    delete head -> previous;
+                }
+                delete head;
             }
-            delete head;
-  
         }
 
         bool isEmpty(){

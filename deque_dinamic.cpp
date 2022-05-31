@@ -63,12 +63,14 @@ class Deque{
 
                 }
                 end++;
+                delete[] temp;
             }else if(end == -1){
                 front = end = 0;
             }else{
                 end++;
             }
             p[end] = n;
+
         }
 
         int pop_front(){
