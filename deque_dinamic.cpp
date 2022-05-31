@@ -39,6 +39,7 @@ class Deque{
                     p[len / 2 + i ] = temp[i];
 
                 }
+                delete[] temp;
                 front = len / 2; // array added front the base array, thats why var front = len / 2
 
             }else if(front == -1){  // if the first element: index = 0
@@ -111,9 +112,9 @@ int main(){
     cout << "empty " << dqu.isEmpty() << endl;
     cout << "len =  " << dqu.getLen() << endl;
     
-    for(int i = 0; i < 5; i++){
-        // dqu.push_front(i);
-        dqu.push_back(i);
+    for(int i = 0; i < 8; i++){
+        dqu.push_front(i);
+        // dqu.push_back(i);
     }
     
     cout << "full " << dqu.isFull() << endl;
@@ -121,8 +122,8 @@ int main(){
     cout << "len =  " << dqu.getLen() << endl;
 
      for(int i = 0; i < 5; i++){
-        // cout << "pop = " << dqu.pop_front() << endl;
-        cout << "pop = " << dqu.pop_back() << endl;
+        cout << "pop = " << dqu.pop_front() << endl;
+        // cout << "pop = " << dqu.pop_back() << endl;
 
     }
    

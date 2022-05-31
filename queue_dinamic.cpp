@@ -26,6 +26,7 @@ class Queue{
                     p[i] = temp[i];
 
                 }
+                delete[] temp;
             }
             p[index_push++] = n;    
         }
@@ -61,7 +62,7 @@ int main(){
     cout << "empty " << qu.isEmpty() << endl;
     cout << "len =  " << qu.getLen() << endl;
     
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 8; i++){
         qu.push(i);
     }
     

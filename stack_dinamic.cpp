@@ -27,6 +27,7 @@ class Stack{
                     p[i] = temp[i];
 
                 }
+                delete[] temp;  // delete the temp pointer is clear the all memory
             }
             p[index++] = n;           
         }
@@ -58,7 +59,7 @@ int main(){
     cout << "empty " << st.isEmpty() << endl;
     cout << "len =  " << st.getLen() << endl;
     
-    for(int i = 0; i < 9; i++){   // to fill array   len = 5
+    for(int i = 0; i < 100; i++){   // to fill array   len = 5
         st.push(i);
     }
     
