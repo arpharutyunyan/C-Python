@@ -33,17 +33,6 @@ class LinkedList{
                 h = h -> next;
             }
         }
-
-        LinkedList& operator=(const LinkedList& copy_list){
-
-            Node* h = copy_list.head;
-            while (h!=nullptr){
-                push_back(h -> value);
-                h = h -> next;
-            }
-
-            return *this;
-        }
         
         ~LinkedList(){
             if(!isEmpty()){
@@ -153,6 +142,19 @@ class LinkedList{
             }
         }
 
+        bool find(int x){
+            Node* node = head;
+
+            while (node != nullptr){
+               if(x == node -> value){
+                    return true;
+                }
+                node = node -> next;
+            }
+            
+            return false;
+        }
+
         //----------------print-------------------
         void print(){
             cout << "\nPrint result!!!! \n\n";
@@ -171,11 +173,7 @@ class LinkedList{
 
         void print_reverse(){
             cout << "\nPrint reverse!!!! \n\n";
-            if(isEmpty()){
-                cout << "nothing to print \n";
-                return;
-            }
-
+            
             for(Node* t = tail; t != nullptr; t = t -> previous){
                 cout << "value = " << t -> value << "\t";
             }   
@@ -188,18 +186,6 @@ class LinkedList{
 
         int getLen(){
             return len;
-        }
-
-        int operator[](int n){
-            if(n > len - 1){
-                cout << " WARNING!!!   segmentation fault :( \n"; 
-                return -1;
-            }
-
-            Node* node = getNode(n);
-
-            return node -> value;
-
         }
 
         Node* getNode(int n){
@@ -218,6 +204,8 @@ class LinkedList{
         }
 
 
+        //------------------operator-------------------------
+        
         bool operator==(LinkedList second){
             if(len  != second.getLen()){
                 return false;
@@ -236,6 +224,29 @@ class LinkedList{
             }
             return true;
         }
+
+        LinkedList& operator=(const LinkedList& copy_list){
+
+            Node* h = copy_list.head;
+            while (h!=nullptr){
+                push_back(h -> value);
+                h = h -> next;
+            }
+
+            return *this;
+        }
+
+        int operator[](int n){
+            if(n > len - 1){
+                cout << " WARNING!!!   segmentation fault :( \n"; 
+                return -1;
+            }
+
+            Node* node = getNode(n);
+
+            return node -> value;
+
+        }
 };
 
 
@@ -248,41 +259,22 @@ int main(){
         ll.push_back(i);
     }
 
-    cout << "len = " << ll.getLen() << endl;
-    // cout << "get = " << ll[4] << endl;
+    if(ll.find(0)){
+        cout << "True" << endl;
+    }else{
+        cout << "False" << endl;
+    }
 
+    // LinkedList second;
 
-    LinkedList second;
-
-    second = ll;
-    cout << "len = " << second.getLen() << endl;
-    ll.print();
-    second.print();
-    // for(int i = 0; i < 5; i++){
-    //     // ll.push_front(i);
-    //     second.push_back(i);
-    // }
-
-
+    // second = ll;
     // cout << "len = " << second.getLen() << endl;
-    // if(ll == second){
-    //     cout << "Is equals" << endl;
-    // }else{
-    //     cout << "Is not equals" << endl;
-    // }
-
-
-
-    // ll.print();
 
     // for(int i = 0; i < 2; i++){
     //     cout << "pop = " << ll.pop_back() << endl;
     //     // cout << "pop = " << ll.pop_front() << endl;
     // }
 
-    // ll.print();
-
-    // ll.print_reverse();
     return 0;
 
 }
