@@ -23,6 +23,9 @@ class MyMap{
         Node* head = nullptr;
         Node* tail = nullptr;
         int len = 0;
+
+        int* arr_of_keys = NULL;  // pointer of arreys wich is using in function keys() and contains all keys
+        int* arr_of_values = NULL;   // pointer of arreys wich is using in function vallues() and contains all keys
         Node* address_of_repeated_key = nullptr;
 
         MyMap(){
@@ -36,7 +39,6 @@ class MyMap{
                 push_back(h -> key, h->value);
                 h = h -> next;
             }
-
         }
 
         ~MyMap(){
@@ -46,9 +48,15 @@ class MyMap{
                     head = head -> next;
                     delete head -> previous;
                 }
-                delete head;
+                delete head;  
+            }
 
-                
+            if(arr_of_keys){
+                delete[] arr_of_keys;
+            }
+
+            if(arr_of_values){
+                delete[] arr_of_values;
             }
         }
 
@@ -72,8 +80,7 @@ class MyMap{
                 node -> previous = tail;
                 tail = node;
                 len++;
-            }
-            
+            }   
         }
 
         int pop_back(){
@@ -114,9 +121,7 @@ class MyMap{
                 node -> next = head;
                 head = node;
                 len++;
-            }
-
-            
+            }   
         }
 
         int pop_front(){
@@ -151,7 +156,7 @@ class MyMap{
                 return;
             }
 
-            if(index > len-1){
+            if(index > len-1){   // if input invalid index, adding node after the last element 
                 cout << "the lenght of list is " << len << ". Adding node will be after the last element!" << endl;
                 push_back(k, v);
                 return;
@@ -161,11 +166,11 @@ class MyMap{
 
             if(index == 0){
                 push_front(k, v);
-            }else if(index == len-1){  // count index from 0
+            }else if(index == len-1){  // index starts from 0
                 push_back(k, v);
             }else{
 
-                Node* node = head;                    // get node with given index
+                Node* node = head;               // get node with given index
                 for(int i = 0; i < index; i++){
                     node = node -> next;
                 }
@@ -186,9 +191,7 @@ class MyMap{
 
                     return true;
                 }
-        
             }
-
             return false;
         }
 
@@ -208,6 +211,30 @@ class MyMap{
             cout << endl << endl;   
         }
 
+        //------------------functions-----------------
+
+        // function return the pointer of array with all keys
+        int* keys(){
+            
+            arr_of_keys = new int[len];
+            Node* h = head;
+            for(int i=0; i<len; i++){
+                arr_of_keys[i] = h -> key;
+                h = h -> next;
+            }
+            return arr_of_keys;
+        }
+
+        // function return the pointer of array with all values
+        int* values(){
+            arr_of_values = new int[len];
+            Node* h = head;
+            for(int i=0; i<len; i++){
+                arr_of_values[i] = h -> value;
+                h = h -> next;
+            }
+            return arr_of_values;
+        }
 
         //-------------operators-------------
 
@@ -241,7 +268,14 @@ class MyMap{
             return true;
         }
 
+        int operator[](int k){
+            
+            if(find(k)){
+                return address_of_repeated_key -> value;
+            }
 
+            return -1;
+        }
 };
 
 int main(){
@@ -253,20 +287,34 @@ int main(){
         map.push_back(i, i+10);
     }
 
-    // map.print();
+    map.print();
 
     map.insert(2, 15, 100);
-    map.insert(2, 150, 100);
 
     map.print();
 
     map.push_back(2, 5);
     map.push_front(1, 5);
 
-    map.print();
+    // map.print();
 
     MyMap map2(map);
-    map2.print();
+    // map2.print();
+
+    int* keys;
+    keys = map2.keys();
+
+    int* values;
+    values = map2.values();
+
+    cout << "[";
+    for(int i=0; i<map2.getLen(); i++){
+        cout << keys[i] << ", ";
+    }
+    cout << "]";
+
+    
+    // cout << map2[500] << endl;
 
     // MyMap map3;
     // map3 = map2;
