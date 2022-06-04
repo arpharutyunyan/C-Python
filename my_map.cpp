@@ -24,8 +24,8 @@ class MyMap{
         Node* tail = nullptr;
         int len = 0;
 
-        int* arr_of_keys = NULL;  // pointer of arrays wich is using in function keys() and contains all keys
-        int* arr_of_values = NULL;   // pointer of arrays wich is using in function vallues() and contains all keys
+        // int* arr_of_keys = NULL;  // pointer of arrays wich is using in function keys() and contains all keys
+        // int* arr_of_values = NULL;   // pointer of arrays wich is using in function vallues() and contains all keys
         Node* address_of_repeated_key = nullptr;  // initialising in the find() function and save the address of the repeated nodes
 
         MyMap(){
@@ -48,16 +48,9 @@ class MyMap{
                     head = head -> next;
                     delete head -> previous;
                 }
-                delete head;  
+                delete head;
             }
 
-            if(arr_of_keys){
-                delete[] arr_of_keys;
-            }
-
-            if(arr_of_values){
-                delete[] arr_of_values;
-            }
         }
 
         bool isEmpty(){
@@ -215,7 +208,7 @@ class MyMap{
 
         // function return the pointer of array with all keys
         int* keys(){
-            
+            int* arr_of_keys;
             arr_of_keys = new int[len];
             Node* h = head;
             for(int i=0; i<len; i++){
@@ -227,6 +220,7 @@ class MyMap{
 
         // function return the pointer of array with all values
         int* values(){
+            int* arr_of_values;
             arr_of_values = new int[len];
             Node* h = head;
             for(int i=0; i<len; i++){
@@ -289,31 +283,44 @@ int main(){
 
     map.print();
 
-    map.insert(2, 15, 100);
+    // map.insert(2, 15, 100);
 
-    map.print();
+    // map.print();
 
-    map.push_back(2, 5);
-    map.push_front(1, 5);
+    // map.push_back(2, 5);
+    // map.push_front(1, 5);
 
     // map.print();
 
     MyMap map2(map);
     // map2.print();
 
-    int* keys;
+    int* keys = nullptr;
     keys = map2.keys();
 
-    int* values;
+    int* values = nullptr;
     values = map2.values();
 
-    cout << "[";
+    cout << "keys" << endl << "[";
     for(int i=0; i<map2.getLen(); i++){
         cout << keys[i] << ", ";
     }
-    cout << "]";
+    cout << "]" << endl;
 
-    
+
+    cout << "values" << endl << "[";
+    for(int i=0; i<map2.getLen(); i++){
+        cout << values[i] << ", ";
+    }
+    cout << "]" << endl;
+
+    if(keys){
+        delete[] keys;
+    }
+
+    if(values){
+        delete[] values;
+    }
     // cout << map2[500] << endl;
 
     // MyMap map3;

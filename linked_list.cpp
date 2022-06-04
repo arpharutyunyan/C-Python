@@ -27,6 +27,14 @@ class LinkedList{
 
         LinkedList(const LinkedList& copy_list){
             
+            if(!isEmpty()){
+                while (head!=tail){
+                    head = head -> next;
+                    delete head -> previous;
+                }
+                delete head;
+            }
+
             Node* h = copy_list.head;
             while (h!=nullptr){
                 push_back(h -> value);
@@ -227,12 +235,21 @@ class LinkedList{
 
         LinkedList& operator=(const LinkedList& copy_list){
 
+            
+            if(!isEmpty()){
+                while (head!=tail){
+                    head = head -> next;
+                    delete head -> previous;
+                }
+                delete head;
+                // head = tail = nullptr;
+            }
+            
             Node* h = copy_list.head;
             while (h!=nullptr){
                 push_back(h -> value);
                 h = h -> next;
             }
-
             return *this;
         }
 
@@ -259,16 +276,25 @@ int main(){
         ll.push_back(i);
     }
 
-    if(ll.find(0)){
-        cout << "True" << endl;
-    }else{
-        cout << "False" << endl;
-    }
+    // if(ll.find(0)){
+    //     cout << "True" << endl;
+    // }else{
+    //     cout << "False" << endl;
+    // }
 
-    // LinkedList second;
+    LinkedList second;
 
-    // second = ll;
+    second = ll;
     // cout << "len = " << second.getLen() << endl;
+
+    ll = second;
+    ll.print();
+
+    ll.push_back(20);
+    ll.print();
+
+
+
 
     // for(int i = 0; i < 2; i++){
     //     cout << "pop = " << ll.pop_back() << endl;
