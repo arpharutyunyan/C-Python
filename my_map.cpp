@@ -24,9 +24,9 @@ class MyMap{
         Node* tail = nullptr;
         int len = 0;
 
-        int* arr_of_keys = NULL;  // pointer of arreys wich is using in function keys() and contains all keys
-        int* arr_of_values = NULL;   // pointer of arreys wich is using in function vallues() and contains all keys
-        Node* address_of_repeated_key = nullptr;
+        int* arr_of_keys = NULL;  // pointer of arrays wich is using in function keys() and contains all keys
+        int* arr_of_values = NULL;   // pointer of arrays wich is using in function vallues() and contains all keys
+        Node* address_of_repeated_key = nullptr;  // initialising in the find() function and save the address of the repeated nodes
 
         MyMap(){
             cout << "Non argument" << endl;
@@ -330,6 +330,7 @@ int main(){
     //     // cout << "key = " << map.pop_front() << endl;
     //     cout << "key = " << map.pop_back() << endl;
     // }
+    
 
     return 0;
 
