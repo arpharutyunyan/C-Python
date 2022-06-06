@@ -22,6 +22,7 @@ class Bst{
     public:
 
         int len = 0;
+
         bool isEmpty(){
             return root == nullptr;
         }
@@ -84,7 +85,7 @@ class Bst{
             }
         }
 
-        void print(Node* temp=nullptr, Node* left=nullptr, Node* right=nullptr){
+        void print(Node* temp = nullptr){
 
             if(isEmpty()){
                 cout << "Is empty! Nothing to print\n";
@@ -92,30 +93,25 @@ class Bst{
             }
 
             if(temp == nullptr){            // first initialize for root
-                temp = left = right = root;
-                cout << left->number << "\t";
-                return print(temp, left->left, right->right);
+                temp = root;
+                cout << temp->number << "\t";
             }
 
-            if(left == nullptr and right == nullptr){   // stop the recursion function
+            if(temp->left == nullptr and temp->right == nullptr){   // stop the recursion function
                 return;
             }
 
-            if(left != nullptr){
-                cout << left->number << "\t";
-                left = left->left;
+
+            if(temp->left!=nullptr){
+                cout << temp->left -> number << "\t";
+                print(temp->left);
             }
-            if(right!=nullptr){
-                cout << right->number << "\t";
-                right = right->right;
+            if(temp->right!=nullptr){
+                cout << temp->right -> number << "\t";
+                print(temp->right);
             }
-                
-                
-            return print(temp, left, right);
-            
+
         }
-
-
 };
 
 int main(){
@@ -125,11 +121,12 @@ int main(){
     bst.add(50);
     bst.add(100);
     bst.add(30);
+    bst.add(40);
     bst.add(10);
-    bst.add(20);
+    // bst.add(20);
     bst.add(90);
     bst.add(200);
-    bst.add(220);
+    // bst.add(220);
 
     // bst.print_with_queue();
     bst.print();
@@ -143,8 +140,6 @@ int main(){
 
             30              100
 
-        10               90      200
-
-            20                         220
+        10     40        90      200
 
 */
