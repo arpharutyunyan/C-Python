@@ -23,6 +23,21 @@ class Bst{
 
         int len = 0;
 
+        ~Bst(){
+
+            del(root);
+
+        }
+
+        void del(Node* temp){
+            if(temp!=nullptr){
+                del(temp->left);
+                del(temp->right);
+            }  
+
+            delete temp;
+        }
+
         bool isEmpty(){
             return root == nullptr;
         }
@@ -107,11 +122,74 @@ class Bst{
                 print(temp->left);
             }
             if(temp->right!=nullptr){
+                
                 cout << temp->right -> number << "\t";
                 print(temp->right);
+
             }
 
         }
+
+        void print_AZ(Node* temp = nullptr){
+
+            if(isEmpty()){
+                cout << "Is empty! Nothing to print\n";
+                return;
+            }
+
+            if(temp == nullptr){            // first initialize for root
+                temp = root;
+            }
+
+            if(temp->left == nullptr and temp->right == nullptr){   // stop the recursion function
+                cout << temp -> number << "\t";  
+                return;
+            }
+
+            
+            if(temp->left!=nullptr){
+                
+                print_AZ(temp->left);
+                cout << temp -> number << "\t";
+                
+            }
+
+            if(temp->right!=nullptr){
+                
+                print_AZ(temp->right);
+            }
+                       
+        }
+
+        void print_ZA(Node* temp = nullptr){
+
+            if(isEmpty()){
+                cout << "Is empty! Nothing to print\n";
+                return;
+            }
+
+            if(temp == nullptr){            // first initialize for root
+                temp = root;
+            }
+
+            if(temp->left == nullptr and temp->right == nullptr){   // stop the recursion function
+                cout << temp -> number << "\t";  
+                return;
+            }
+
+            if(temp->right!=nullptr){
+                
+                print_ZA(temp->right);
+                cout << temp -> number << "\t";  
+            }
+
+            if(temp->left!=nullptr){
+                
+                print_ZA(temp->left);  
+                            
+            }             
+        }
+
 };
 
 int main(){
@@ -130,6 +208,12 @@ int main(){
 
     // bst.print_with_queue();
     bst.print();
+
+    // cout << "----------A-Z-----------\n"; 
+    // bst.print_AZ();
+
+    // cout << "\n----------Z-A-----------\n"; 
+    // bst.print_ZA();
 
     return 0;
 }
