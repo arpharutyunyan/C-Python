@@ -66,6 +66,30 @@ class Bst{
             }
         }
 
+        bool find(int n, Node* temp=nullptr){
+
+            if(temp == nullptr){
+                temp = root;
+            }
+
+            if(temp->left != nullptr and temp->right != nullptr){     // stop the recursion function
+                if(temp -> number == n){
+                    return true;
+                }
+
+                if(n > temp->number){         // checking this condition reduce search in half
+                    find(n, temp->right);
+                }else{
+                    find(n, temp->left);
+                }
+            }else{
+               return temp->number == n;   // check the last row in tree
+            }    
+        }
+
+        // ____________  print  ________________
+
+
         // this finction create the array with nodes
         // first add  root, then ...
         // choose the element from array using variable index_pop,(the first time it will be root)
@@ -143,22 +167,11 @@ class Bst{
 
             if(temp->left == nullptr and temp->right == nullptr){   // stop the recursion function
                 cout << temp -> number << "\t";  
-                return;
-            }
-
-            
-            if(temp->left!=nullptr){
-                
-                print_AZ(temp->left);
+            }else{
+                print_AZ(temp -> left);
                 cout << temp -> number << "\t";
-                
+                print_AZ(temp -> right);
             }
-
-            if(temp->right!=nullptr){
-                
-                print_AZ(temp->right);
-            }
-                       
         }
 
         void print_ZA(Node* temp = nullptr){
@@ -174,20 +187,12 @@ class Bst{
 
             if(temp->left == nullptr and temp->right == nullptr){   // stop the recursion function
                 cout << temp -> number << "\t";  
-                return;
-            }
-
-            if(temp->right!=nullptr){
-                
+            }else{
                 print_ZA(temp->right);
                 cout << temp -> number << "\t";  
-            }
+                print_ZA(temp->left); 
 
-            if(temp->left!=nullptr){
-                
-                print_ZA(temp->left);  
-                            
-            }             
+            }           
         }
 
 };
@@ -201,19 +206,24 @@ int main(){
     bst.add(30);
     bst.add(40);
     bst.add(10);
-    // bst.add(20);
     bst.add(90);
     bst.add(200);
-    // bst.add(220);
 
     // bst.print_with_queue();
-    bst.print();
+    // bst.print();
 
     // cout << "----------A-Z-----------\n"; 
     // bst.print_AZ();
 
     // cout << "\n----------Z-A-----------\n"; 
     // bst.print_ZA();
+
+    bool find = bst.find(10);
+    if(find){
+        cout << "True \n";
+    }else{
+        cout << "False \n";
+    }
 
     return 0;
 }
