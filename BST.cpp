@@ -66,11 +66,13 @@ class Bst{
             }
         }
 
+
         bool find(int n, Node* temp=nullptr){
 
             if(temp == nullptr){
                 temp = root;
             }
+
 
             if(temp->left != nullptr and temp->right != nullptr){     // stop the recursion function
                 if(temp -> number == n){
@@ -81,10 +83,13 @@ class Bst{
                     find(n, temp->right);
                 }else{
                     find(n, temp->left);
+
+
                 }
             }else{
                return temp->number == n;   // check the last row in tree
-            }    
+            }   
+
         }
 
         // ____________  print  ________________
