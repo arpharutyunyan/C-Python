@@ -21,6 +21,9 @@ class Bst{
 
     public:
 
+        Node* finded_address = nullptr;
+        Node* parent = nullptr;
+
         Bst(){};
 
         Bst(const Bst& copy){
@@ -54,8 +57,13 @@ class Bst{
 
         void destructor(Node* temp){
             if(temp!=nullptr){
-                destructor(temp->left);
-                destructor(temp->right);
+                if(temp->left!=nullptr){
+                    destructor(temp->left);
+                }
+                if(temp->right!=nullptr){
+                    destructor(temp->right);
+                }
+                
                 delete temp;
             }  
             
@@ -89,35 +97,99 @@ class Bst{
             }
         }
 
+        bool find(int n){
+            return find(n, root);
+        }
 
-        bool find(int n, Node* temp=nullptr){
-
-            if(temp == nullptr){
-                temp = root;
-            }
-
-
-            if(temp->left != nullptr and temp->right != nullptr){     // stop the recursion function
+        bool find(int n, Node* temp){
+            
+            if(temp!=nullptr){
                 if(temp -> number == n){
+                    finded_address = temp;
                     return true;
                 }
 
-                if(n > temp->number){         // checking this condition reduce search in half
+                if(n > temp->number){        
+                    parent = temp; 
                     return find(n, temp->right);
 
                 }else{
+                    parent = temp; 
                     return find(n, temp->left);
 
-                }
+                }    
             }else{
-               return temp->number == n;   // check the last row in tree
-            }   
-
+                return false;
+            }
         }
 
-        // void del(int x){
+        // bool find(int n, Node* temp=nullptr){
 
+        //     if(temp == nullptr){
+        //         temp = root;
+        //     }
+
+        //     if(temp->left != nullptr and temp->right != nullptr){     // stop the recursion function
+        //         if(temp -> number == n){
+        //             finded_address = temp;
+        //             return true;
+        //         }
+
+        //         if(n > temp->number){         // checking this condition reduce search in half
+        //             return find(n, temp->right);
+
+        //         }else{
+        //             return find(n, temp->left);
+
+        //         }
+        //     }else{              // check the last row in tree
+
+        //         if(temp->number == n){
+        //             finded_address = temp;
+        //             return true;
+        //         }
+
+        //         return false;   
+        //     }   
         // }
+
+        bool del(int x){
+
+            if(find(x)){
+                if(finded_address->left==nullptr and finded_address->right==nullptr){
+                    delete finded_address; 
+
+                    if(x < parent->number){
+                        parent -> left = nullptr;
+                    }else{
+                        parent -> right = nullptr;
+                    }
+                    return true;
+
+                }else{
+                    Node* child = finded_address->right;
+                    if (parent == nullptr){
+                        root = parent = child;
+                        parent->left = finded_address->left;
+                        child = parent->right;
+                    }
+                    
+                    while(child!=nullptr){
+                        
+                        parent->right = child;
+                        parent = child;
+                        parent->left = finded_address->left;
+                        child = parent->right;
+                    } 
+                                     
+                    delete finded_address;
+
+                    return true;
+                }
+                
+            }
+            return false;
+        }
 
         // ____________  print  ________________
 
@@ -133,8 +205,8 @@ class Bst{
             }
 
             if(temp != nullptr){
+
                 cout << temp -> number << "\t";  // print the sequence of function calls
-                
                 print(temp->left);
                 print(temp->right);
             }
@@ -221,7 +293,7 @@ class Bst{
             }else if (self==nullptr and second==nullptr){   // when we don't have Node for checking and not breaking the function with false
                 return true;                                                                
             }else{
-                return false;     // when the self nullptr or the second nullptr
+                return false;     // when the self = nullptr or second = nullptr
             }
            
         }
@@ -259,23 +331,40 @@ int main(){
     y.add(50);
     y.add(30);
 
-    if(x == y){
-        cout << "\nTrue \n";
-    }else{
-        cout << "\nFalse \n";
-    }
-    cout << "----------A-Z-----------\n"; 
-    bst.print_AZ();
+    // if(x == y){
+    //     cout << "\nTrue \n";
+    // }else{
+    //     cout << "\nFalse \n";
+    // }
+    // cout << "----------A-Z-----------\n"; 
+    // bst.print_AZ();
 
-    cout << "\n----------Z-A-----------\n"; 
-    bst.print_ZA();
+    // cout << "\n----------Z-A-----------\n"; 
+    // bst.print_ZA();
 
-    bool find = bst.find(205);
-    if(find){
-        cout << "\nTrue \n";
-    }else{
-        cout << "\nFalse \n";
-    }
+    // bool find = bst.find(205);
+    // if(find){
+    //     cout << "\nTrue \n";
+    // }else{
+    //     cout << "\nFalse \n";
+    // }
+
+    // if(bst.del(40)){
+    //     cout << "\nTrue \n";
+    // }else{
+    //     cout << "\nFalse \n";
+    // }
+
+    cout << "\n";
+    bst.del(50);
+    // bst.del(40);
+    // bst.del(90);
+    // bst.del(200);
+    // bst.del(30);
+    // bst.del(100);
+
+
+    bst.print();
 
     return 0;
 }
@@ -287,5 +376,15 @@ int main(){
             30              100
 
         10     40        90      200
+
+                              150   250  
+
+
+
+
+                               parent->right = child;
+                        parent = child;
+                        parent->left = finded_address->left;
+                        child = parent->right;
 
 */
