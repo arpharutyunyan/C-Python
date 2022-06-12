@@ -21,21 +21,45 @@ class Bst{
 
     public:
 
-        int len = 0;
+        Bst(){};
 
-        ~Bst(){
+        Bst(const Bst& copy){
 
-            del(root);
+            if(!isEmpty()){
+                destructor(root);
+            }
 
+            copy_constructor(copy.root);
+           
         }
 
-        void del(Node* temp){
-            if(temp!=nullptr){
-                del(temp->left);
-                del(temp->right);
-            }  
+        void copy_constructor(Node* temp){
 
-            delete temp;
+            if(temp!=nullptr){
+
+                add(temp->number);
+                copy_constructor(temp->left);
+                copy_constructor(temp->right);
+            }
+        }
+
+        
+        ~Bst(){
+
+            if(!isEmpty()){
+                destructor(root);
+            }
+                  
+        }
+
+        void destructor(Node* temp){
+            if(temp!=nullptr){
+                destructor(temp->left);
+                destructor(temp->right);
+                delete temp;
+            }  
+            
+            root = nullptr;
         }
 
         bool isEmpty(){
@@ -43,11 +67,10 @@ class Bst{
         }
 
         void add(int x){
-            addRec(x, root);
-            ++len;
+            add(x, root);
         }
 
-        void addRec(int x, Node* r){
+        void add(int x, Node* r){
             if(isEmpty()){
                 root = new Node(x);
             }else if(x > r->number){
@@ -55,13 +78,13 @@ class Bst{
                     r->right = new Node(x);
                     return;
                 }
-                addRec(x, r->right);
+                add(x, r->right);
             }else if(x < r->number){
                 if(r->left == nullptr){
                     r->left = new Node(x);
                     return;
                 }
-                addRec(x, r->left);
+                add(x, r->left);
 
             }
         }
@@ -80,10 +103,10 @@ class Bst{
                 }
 
                 if(n > temp->number){         // checking this condition reduce search in half
-                    find(n, temp->right);
-                }else{
-                    find(n, temp->left);
+                    return find(n, temp->right);
 
+                }else{
+                    return find(n, temp->left);
 
                 }
             }else{
@@ -92,71 +115,29 @@ class Bst{
 
         }
 
+        // void del(int x){
+
+        // }
+
         // ____________  print  ________________
 
-
-        // this finction create the array with nodes
-        // first add  root, then ...
-        // choose the element from array using variable index_pop,(the first time it will be root)
-        // check if that have right or left node and push(add) in the array with variable index_push
-        void print_with_queue(){
-
-            if(isEmpty()){
-                cout << "Is empty! Nothing to print\n";
-                return;
-            }
-            
-            Node* queue[len];   
-            int index_push = 0;  
-            int index_pop = 0; 
-
-            Node* temp = root;
-            queue[index_pop++] = temp;  // fill the first element(root) in the array
-            cout << temp->number << "\t";
-
-            while(index_pop!=len){   //the loop is stoped when the all elements will be checked 
-               
-                if(temp->left != nullptr){
-                    queue[++index_push] = temp->left;
-                }
-                if(temp->right != nullptr){
-                    queue[++index_push] = temp->right;
-                }
-                
-                
-                temp = queue[index_pop++];
-                cout << temp->number << "\t";
-            }
+        void print(){        
+            print(root);
         }
 
-        void print(Node* temp = nullptr){
+        void print(Node* temp){
 
             if(isEmpty()){
                 cout << "Is empty! Nothing to print\n";
                 return;
             }
 
-            if(temp == nullptr){            // first initialize for root
-                temp = root;
-                cout << temp->number << "\t";
-            }
-
-            if(temp->left == nullptr and temp->right == nullptr){   // stop the recursion function
-                return;
-            }
-
-
-            if(temp->left!=nullptr){
-                cout << temp->left -> number << "\t";
-                print(temp->left);
-            }
-            if(temp->right!=nullptr){
+            if(temp != nullptr){
+                cout << temp -> number << "\t";  // print the sequence of function calls
                 
-                cout << temp->right -> number << "\t";
+                print(temp->left);
                 print(temp->right);
-
             }
-
         }
 
         void print_AZ(Node* temp = nullptr){
@@ -200,9 +181,56 @@ class Bst{
             }           
         }
 
+
+        //___________________ operators ________________
+
+        Bst& operator=(const Bst& copy){
+
+            if(!isEmpty()){
+                destructor(root);
+            }
+
+            copy_constructor(copy.root);
+            return *this;   
+        }
+
+        bool operator==(Bst second){
+            // if(second == this){
+            //     return true;
+            // }
+
+            return equals(root, second.root);
+        }
+
+        bool equals(Node* self, Node* second){
+
+
+            if (self!=nullptr and second!=nullptr)      // when we have a Node for checking
+            {
+                if(self->number == second->number){     // when the numbers are equal, continue to check
+
+                    return equals(self->left, second->left);
+    
+                    return equals(self->right, second->right);
+
+                    
+                }else{
+                    return false;    // if the numbers not equal return false
+                } 
+
+            }else if (self==nullptr and second==nullptr){   // when we don't have Node for checking and not breaking the function with false
+                return true;                                                                
+            }else{
+                return false;     // when the self nullptr or the second nullptr
+            }
+           
+        }
+
 };
 
 int main(){
+
+    
 
     Bst bst;
 
@@ -214,20 +242,39 @@ int main(){
     bst.add(90);
     bst.add(200);
 
-    // bst.print_with_queue();
-    // bst.print();
+    Bst x(bst);
 
-    // cout << "----------A-Z-----------\n"; 
-    // bst.print_AZ();
+    cout << "\nbst \n";
+    bst.print();
 
-    // cout << "\n----------Z-A-----------\n"; 
-    // bst.print_ZA();
+    cout << "\nx \n";
+    x.print();
 
-    bool find = bst.find(10);
-    if(find){
-        cout << "True \n";
+    x = bst;
+    cout << "\n= \n";
+    x.print();
+
+    Bst y;
+    // y=x;
+    y.add(50);
+    y.add(30);
+
+    if(x == y){
+        cout << "\nTrue \n";
     }else{
-        cout << "False \n";
+        cout << "\nFalse \n";
+    }
+    cout << "----------A-Z-----------\n"; 
+    bst.print_AZ();
+
+    cout << "\n----------Z-A-----------\n"; 
+    bst.print_ZA();
+
+    bool find = bst.find(205);
+    if(find){
+        cout << "\nTrue \n";
+    }else{
+        cout << "\nFalse \n";
     }
 
     return 0;
