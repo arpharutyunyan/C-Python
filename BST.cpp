@@ -150,27 +150,38 @@ class Bst{
         //     }   
         // }
 
+        void change_value(Node* temp){
 
-        bool del(int x){
-
-            if(find(x)){
-                if(finded_address->left==nullptr and finded_address->right==nullptr){
-                    delete finded_address; 
-
-                    if(x < parent->number){
-                        parent -> left = nullptr;
-                    }else{
-                        parent -> right = nullptr;
-                    }
-                    return true;
-
+            if(temp->left!=nullptr and temp->right!=nullptr){
+                if(temp->number > parent->number){
+                
+                    temp->number = temp->right->number;
+                    parent = temp;
+                    change_value(temp->right);
+                }else{
+                    temp->number = temp->left->number;
+                    parent = temp;
+                    change_value(temp->left);
+                }
+            }else{
+                               
+                if(parent->left->number == parent->number){
+                    parent -> left = nullptr;
+                }else{
+                    parent -> right = nullptr;
                 }
 
+                delete temp;
+            }
+        }
+
+        void del(int x){
+
+            if(find(x)){
+                
+                change_value(finded_address);
 
             }
-                
-            
-            return false;
         }
 
         // ____________  print  ________________
@@ -295,6 +306,7 @@ int main(){
     bst.add(10);
     bst.add(90);
     bst.add(200);
+    
 
     Bst x(bst);
 
@@ -338,7 +350,7 @@ int main(){
     // }
 
     cout << "\n";
-    bst.del(10);
+    bst.del(30);
     // bst.del(40);
     // bst.del(90);
     // bst.del(200);
@@ -353,20 +365,12 @@ int main(){
 
 
 /*
-                    50
+                       50
+                
+            30                    100
 
-            30              100
+     10          40           90           200
 
-        10     40        90      200
-
-                              150   250  
-
-
-
-
-                               parent->right = child;
-                        parent = child;
-                        parent->left = finded_address->left;
-                        child = parent->right;
+ 9     15      35   45    70    95    150     250
 
 */
