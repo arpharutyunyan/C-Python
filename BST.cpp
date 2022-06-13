@@ -57,12 +57,9 @@ class Bst{
 
         void destructor(Node* temp){
             if(temp!=nullptr){
-                if(temp->left!=nullptr){
-                    destructor(temp->left);
-                }
-                if(temp->right!=nullptr){
-                    destructor(temp->right);
-                }
+               
+                destructor(temp->left);
+                destructor(temp->right);
                 
                 delete temp;
             }  
@@ -153,6 +150,7 @@ class Bst{
         //     }   
         // }
 
+
         bool del(int x){
 
             if(find(x)){
@@ -166,28 +164,12 @@ class Bst{
                     }
                     return true;
 
-                }else{
-                    Node* child = finded_address->right;
-                    if (parent == nullptr){
-                        root = parent = child;
-                        parent->left = finded_address->left;
-                        child = parent->right;
-                    }
-                    
-                    while(child!=nullptr){
-                        
-                        parent->right = child;
-                        parent = child;
-                        parent->left = finded_address->left;
-                        child = parent->right;
-                    } 
-                                     
-                    delete finded_address;
-
-                    return true;
                 }
-                
+
+
             }
+                
+            
             return false;
         }
 
@@ -356,7 +338,7 @@ int main(){
     // }
 
     cout << "\n";
-    bst.del(50);
+    bst.del(10);
     // bst.del(40);
     // bst.del(90);
     // bst.del(200);
