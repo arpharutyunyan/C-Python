@@ -120,36 +120,6 @@ class Bst{
             }
         }
 
-        // bool find(int n, Node* temp=nullptr){
-
-        //     if(temp == nullptr){
-        //         temp = root;
-        //     }
-
-        //     if(temp->left != nullptr and temp->right != nullptr){     // stop the recursion function
-        //         if(temp -> number == n){
-        //             finded_address = temp;
-        //             return true;
-        //         }
-
-        //         if(n > temp->number){         // checking this condition reduce search in half
-        //             return find(n, temp->right);
-
-        //         }else{
-        //             return find(n, temp->left);
-
-        //         }
-        //     }else{              // check the last row in tree
-
-        //         if(temp->number == n){
-        //             finded_address = temp;
-        //             return true;
-        //         }
-
-        //         return false;   
-        //     }   
-        // }
-
         void change_value(Node* temp){
 
             if(temp->left!=nullptr and temp->right!=nullptr){
@@ -325,11 +295,11 @@ int main(){
     y.add(50);
     y.add(30);
 
-    // if(x == y){
-    //     cout << "\nTrue \n";
-    // }else{
-    //     cout << "\nFalse \n";
-    // }
+    if(x == x){
+        cout << "\nTrue \n";
+    }else{
+        cout << "\nFalse \n";
+    }
     // cout << "----------A-Z-----------\n"; 
     // bst.print_AZ();
 
@@ -349,8 +319,8 @@ int main(){
     //     cout << "\nFalse \n";
     // }
 
-    cout << "\n";
-    bst.del(30);
+    // cout << "\n";
+    // bst.del(30);
     // bst.del(40);
     // bst.del(90);
     // bst.del(200);
@@ -358,7 +328,7 @@ int main(){
     // bst.del(100);
 
 
-    bst.print();
+    // bst.print();
 
     return 0;
 }
