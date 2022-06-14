@@ -259,10 +259,10 @@ class Bst{
             return *this;   
         }
 
-        bool operator==(Bst second){
-            // if(second == this){
-            //     return true;
-            // }
+        bool operator==(Bst& second){
+            if(&second == this){
+                return true;
+            }
 
             return equals(root, second.root);
         }
