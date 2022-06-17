@@ -21,7 +21,6 @@ class Bst{
 
     public:
 
-        Node* finded_address = nullptr;
         Node* parent = nullptr;
 
         Bst(){};
@@ -94,65 +93,49 @@ class Bst{
             }
         }
 
-        bool find(int n){
-            return find(n, root);
-        }
-
-        bool find(int n, Node* temp){
-            
-            if(temp!=nullptr){
-                if(temp -> number == n){
-                    finded_address = temp;
-                    return true;
-                }
-
-                if(n > temp->number){        
-                    parent = temp; 
-                    return find(n, temp->right);
-
-                }else{
-                    parent = temp; 
-                    return find(n, temp->left);
-
-                }    
+        bool find(int n, bool b){
+            if(find(n)!=nullptr){
+                return true;
             }else{
                 return false;
             }
         }
 
-        void change_value(Node* temp){
+        Node* find(int n){
 
-            if(temp->left!=nullptr and temp->right!=nullptr){
-                if(temp->number > parent->number){
-                
-                    temp->number = temp->right->number;
-                    parent = temp;
-                    change_value(temp->right);
-                }else{
-                    temp->number = temp->left->number;
-                    parent = temp;
-                    change_value(temp->left);
+            return find(n, root);
+        }
+
+        Node* find(int n, Node* temp){
+            
+            if(temp!=nullptr){
+                if(temp -> number == n){
+                    return temp;
                 }
+
+                if(n > temp->number){ 
+                    parent = temp;       
+                    return find(n, temp->right);
+
+                }else{
+                    parent = temp; 
+                    return find(n, temp->left);
+                }    
             }else{
-                               
-                if(parent->left->number == parent->number){
-                    parent -> left = nullptr;
+                return nullptr;
+            }
+        }
+
+        void del_leaf(Node* leaf){
+
+            if(leaf->number < parent->number){
+                    parent->left = nullptr;
                 }else{
-                    parent -> right = nullptr;
+                    parent->right = nullptr;
                 }
 
-                delete temp;
-            }
-        }
-
-        void del(int x){
-
-            if(find(x)){
-                
-                change_value(finded_address);
-
-            }
-        }
+                delete leaf;
+        }        
 
         // ____________  print  ________________
 
@@ -244,11 +227,12 @@ class Bst{
             {
                 if(self->number == second->number){     // when the numbers are equal, continue to check
 
-                    return equals(self->left, second->left);
+                    bool left = equals(self->left, second->left);
     
-                    return equals(self->right, second->right);
+                    bool right = equals(self->right, second->right);
 
-                    
+                    return left and right; 
+
                 }else{
                     return false;    // if the numbers not equal return false
                 } 
@@ -261,6 +245,106 @@ class Bst{
            
         }
 
+        void del(int x){
+
+            Node* finded = find(x);
+
+            if(finded==nullptr){
+                return;
+            }
+
+            // if(finded->left==nullptr and finded->right==nullptr){
+
+            //     del_leaf(finded);
+            //     return;
+            // }
+
+            Node* temp = finded;
+            bool oneLeaf = false;
+
+            if(parent==nullptr){
+                parent=root->right;
+                temp = parent->left;
+            }
+
+            while (temp!=nullptr){
+            
+                if(temp->left!=nullptr and temp->right!=nullptr){
+                    oneLeaf = false;
+
+                    if(temp->number < parent->number){
+                        
+                        parent = temp;
+                        temp = temp->left;
+                        
+                    }else{
+                       
+                        parent = temp;
+                        temp = temp->right;
+                    }
+                }else if(temp->left==nullptr and temp->right==nullptr){
+
+                    if(!oneLeaf){
+                        if(temp->number < parent->number){
+                            temp = parent->right;
+                            if(temp->left!=nullptr or temp->right!=nullptr){
+                                parent = temp;
+                                temp = temp->left;
+                                continue;
+                            }
+                        }else{
+                            temp = parent->left;
+                            if(temp->left!=nullptr or temp->right!=nullptr){
+                                parent = temp;
+                                temp = temp->right;
+                                continue;
+                            }
+                        }
+                    }else{
+                        if(parent->number < finded->number){
+                            if(temp->number < parent->number){   // else temp = temp
+                                temp = parent;
+                            }
+                        }else{
+                            if(temp->number > parent->number){   // else temp = temp
+                                temp = parent;
+                            }
+                        }
+                    }
+                   
+
+                    finded->number = temp->number;
+                    del_leaf(temp);
+
+                    return;
+
+                }else{
+                    parent = temp;
+                    oneLeaf = true;
+
+                    if(temp->left==nullptr){
+                       
+                        temp = temp->right;
+                    }else{
+
+                        temp = temp->left;
+                    }
+                }
+            }
+            
+
+        }
+
+/*
+                       50
+                
+            30                    100
+
+     10          40           90           200
+
+ 9     15      35   45    70    95    150     250
+    11     17                      145     160
+*/       
 };
 
 int main(){
@@ -276,37 +360,50 @@ int main(){
     bst.add(10);
     bst.add(90);
     bst.add(200);
+    bst.add(9);
+    bst.add(15);
+    bst.add(35);
+    bst.add(45);
+    bst.add(70);
+    bst.add(95);
+    bst.add(150);
+    bst.add(250);
+    bst.add(145);
+    bst.add(160);
+    bst.add(11);
+    bst.add(17);
     
 
-    Bst x(bst);
+    // Bst x(bst);
 
-    cout << "\nbst \n";
+    // cout << "\nbst \n";
     bst.print();
 
-    cout << "\nx \n";
-    x.print();
+    // cout << "\nx \n";
+    // x.print();
 
-    x = bst;
-    cout << "\n= \n";
-    x.print();
+    // x = bst;
+    // cout << "\n= \n";
+    // x.print();
 
-    Bst y;
+    // Bst y;
     // y=x;
-    y.add(50);
-    y.add(30);
+    // y.add(50);
+    // y.add(30);
+    // y.add(300);
 
-    if(x == x){
-        cout << "\nTrue \n";
-    }else{
-        cout << "\nFalse \n";
-    }
+    // if(x == y){
+    //     cout << "\nTrue \n";
+    // }else{
+    //     cout << "\nFalse \n";
+    // }
     // cout << "----------A-Z-----------\n"; 
     // bst.print_AZ();
 
     // cout << "\n----------Z-A-----------\n"; 
     // bst.print_ZA();
 
-    // bool find = bst.find(205);
+    // bool find = bst.find(50);
     // if(find){
     //     cout << "\nTrue \n";
     // }else{
@@ -319,28 +416,16 @@ int main(){
     //     cout << "\nFalse \n";
     // }
 
-    // cout << "\n";
+    cout << "\n";
     // bst.del(30);
     // bst.del(40);
     // bst.del(90);
     // bst.del(200);
     // bst.del(30);
-    // bst.del(100);
+    bst.del(50);
 
 
-    // bst.print();
+    bst.print();
 
     return 0;
 }
-
-
-/*
-                       50
-                
-            30                    100
-
-     10          40           90           200
-
- 9     15      35   45    70    95    150     250
-
-*/
