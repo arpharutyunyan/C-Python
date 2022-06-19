@@ -127,15 +127,21 @@ class Bst{
             }
         }
 
-        void del_leaf(Node* leaf){
+        void del_leaf(Node* deleted, Node* find=nullptr){
 
-            if(leaf->number < parent->number){
+            int num = deleted->number;
+
+            if(deleted->number < parent->number){
                     parent->left = nullptr;
             }else{
                 parent->right = nullptr;
             }
 
-            delete leaf;
+            if(find){
+                find->number = num;  // then the deleted is leaf give argument only deleted 
+            }
+            
+            delete deleted;
         }   
 
         void del(int x){
@@ -146,47 +152,31 @@ class Bst{
                 return;
             }
 
-            Node* temp = finded;
-
-            if(parent==nullptr){
-                parent = root->right;
-                temp = parent->left;
-            }
-
-            while(true){
-
-                while(temp->left!=nullptr and temp->right!=nullptr){
-                    if(temp->number < root->number){
-                        parent = temp;
-                        temp = temp->left;
-                    }else{
-                        parent = temp;
-                        temp = temp->right;
-                    }   
-                }
-
-                if(temp->number < parent->number){
-                    temp = parent->right;
-                    if(temp->left!=nullptr or temp->right!=nullptr){  // have one side
-                        parent = temp;  
-                        temp = temp->left;
-                        break;;
-                    }
-
-                }else{
-                    temp = parent->left;
-                    if(temp->left!=nullptr or temp->right!=nullptr){  // have one side
-                        parent = temp;  
-                        temp = temp->right;
-                        break;;
-                    }
+            if(finded->left!=nullptr){
+                Node* temp = finded->left;
+                parent = finded;
+                while(temp->right!=nullptr){
                     
+                    temp = temp->right;
                 }
 
-                int num = temp->number;
-                del_leaf(temp);
-                finded->number = num;
-                return;
+                del_leaf(temp, finded); 
+
+            }else if(finded->right!=nullptr){
+                Node* temp = finded->right;
+                parent = finded;
+                while(temp->left!=nullptr){
+                    temp = temp->left;
+                }
+
+                del_leaf(temp, finded);
+                
+            }else if(finded->left==nullptr and finded->right==nullptr){
+                if(finded != root){
+                    del_leaf(finded);
+                }else{
+                    delete root;
+                }   
             }
         }
 
@@ -329,16 +319,16 @@ int main(){
     bst.add(95);
     bst.add(150);
     bst.add(250);
-    // bst.add(145);
-    // bst.add(160);
-    // bst.add(11);
-    // bst.add(16);
+    bst.add(145);
+    bst.add(160);
+    bst.add(11);
+    bst.add(16);
    
 
     bst.print();
 
     cout << "\n";
-    bst.del(200);
+    bst.del(15);
     bst.print();
 
     // Bst x(bst);

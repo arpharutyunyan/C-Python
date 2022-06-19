@@ -24,6 +24,8 @@ class Bst_map{
 
     public:
 
+        Node* parent = nullptr;
+
         Bst_map(){};
 
         Bst_map(const Bst_map& copy){
@@ -118,11 +120,11 @@ class Bst_map{
                 }
 
                 if(k > temp->key){ 
-                       
+                    parent = temp; 
                     return find(k, temp->right);
 
                 }else{
-                    
+                    parent = temp; 
                     return find(k, temp->left);
                 }    
             }else{
@@ -130,7 +132,58 @@ class Bst_map{
             }
         }
 
+        void del_leaf(Node* deleted, Node* find=nullptr){
 
+            int k = deleted->key;
+
+            if(deleted->key < parent->key){
+                    parent->left = nullptr;
+            }else{
+                parent->right = nullptr;
+            }
+
+            if(find){
+                find->key = k;  // then the deleted is leaf give argument only deleted 
+            }
+            
+            delete deleted;
+        }   
+
+        void del(int x){
+
+            Node* finded = find(x);
+
+            if(finded==nullptr){
+                return;
+            }
+
+            if(finded->left!=nullptr){
+                Node* temp = finded->left;
+                parent = finded;
+                while(temp->right!=nullptr){
+                    
+                    temp = temp->right;
+                }
+
+                del_leaf(temp, finded); 
+
+            }else if(finded->right!=nullptr){
+                Node* temp = finded->right;
+                parent = finded;
+                while(temp->left!=nullptr){
+                    temp = temp->left;
+                }
+
+                del_leaf(temp, finded);
+                
+            }else if(finded->left==nullptr and finded->right==nullptr){
+                if(finded != root){
+                    del_leaf(finded);
+                }else{
+                    delete root;
+                }   
+            }
+        }
 
         void print(){        
             print(root);
