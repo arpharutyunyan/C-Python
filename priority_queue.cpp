@@ -16,14 +16,12 @@ class Node{
 class Priority_queue{
 
     public:
-
-        Node* head = nullptr;
-        Node* tail = nullptr;
-        int len = 0;
        
         Priority_queue(){}
 
         Priority_queue(const Priority_queue& copy_list){
+
+            cout << "copy constructor \n";
             
             if(!isEmpty()){
                 while (head!=tail){
@@ -41,6 +39,8 @@ class Priority_queue{
         }
         
         ~Priority_queue(){
+            cout << "destructor \n";
+
             if(!isEmpty()){
                 while (head!=tail){
                     head = head -> next;
@@ -50,26 +50,72 @@ class Priority_queue{
             }
         }
 
-        bool isEmpty(){
-            return head == nullptr;
+        //------------------operator-------------------------
+        
+        bool operator==(Priority_queue& second){
+            if(len  != second.getLen()){
+                return false;
+            }
+
+            if(&second == this){
+                return true;
+            }
+
+            Node* temp1 = head;
+            Node* temp2 = second.head;
+            for(int i = 0; i < len; i++){
+
+                if(temp1 -> value != temp2->value){
+                    return false;
+                }
+                temp1 = temp1 -> next;
+                temp2 = temp2 -> next;
+
+            }
+            return true;
         }
 
-        void add(int n){
+        Priority_queue& operator=(const Priority_queue& copy_list){
 
-            if(isEmpty()){
-                Node* temp = new Node(n);
-                head = tail = temp;
+            
+            if(!isEmpty()){
+                while (head!=tail){
+                    head = head -> next;
+                    delete head -> previous;
+                }
+                delete head;
+                head = tail = nullptr;
+            }
+            
+            Node* h = copy_list.head;
+            while (h!=nullptr){
+                push_back(h -> value);
+                h = h -> next;
+            }
+            return *this;
+        }
+
+        int operator[](int n){
+            if(n > len - 1){
+                cout << " WARNING!!!   segmentation fault :( \n"; 
+                return -1;
             }
 
-            if(n < pop_front()){
-                push_front(n);
-            }else if(n > pop_back()){
-                push_back(n);
-            }
+            Node* node = getNode(n);
+
+            return node -> value;
+
         }
 
     private:
 
+        Node* head = nullptr;
+        Node* tail = nullptr;
+        int len = 0;
+
+        bool isEmpty(){
+            return head == nullptr;
+        }
 
         //-----------back---------------
         void push_back(int n){
@@ -179,6 +225,68 @@ class Priority_queue{
 
     public:
 
+        void add(int n, bool reverse = false){
+
+            if(isEmpty()){
+                push_back(n);
+                return;
+            }
+
+            len++;
+
+            Node* node = head;
+            Node* addedNode = new Node(n);
+
+            if(!reverse){
+                while (node->next!=nullptr){
+                
+                    if(n > node->value and n < node->next->value){
+                        addedNode -> next = node->next; 
+                        addedNode -> previous = node;
+                        node -> next -> previous = addedNode; 
+                        node -> next = addedNode; 
+                        return;
+                    }
+                    node = node->next;
+                }
+
+                if(n > node->value){               // then we have one element or compair with last element
+                    node -> next = addedNode;
+                    addedNode -> previous = node;
+                    tail = addedNode;                // node will be the tail
+                }else{                       
+                    head -> previous = addedNode;
+                    addedNode -> next = head;
+                    head = addedNode;         // node will be the head
+                }
+
+            }else{   // sort reverse
+                while (node->next!=nullptr){
+                
+                    if(n < node->value and n > node->next->value){
+                        addedNode -> next = node->next; 
+                        addedNode -> previous = node;
+                        node -> next -> previous = addedNode; 
+                        node -> next = addedNode; 
+                        return;
+                    }
+                    node = node->next;
+                }
+
+                if(n < node->value){               // then we have one element or compair with last element
+                    node -> next = addedNode;
+                    addedNode -> previous = node;
+                    tail = addedNode;                // node will be the tail
+                }else{                       
+                    head -> previous = addedNode;
+                    addedNode -> next = head;
+                    head = addedNode;         // node will be the head
+                }
+            }
+
+            
+        }
+
         //----------------print-------------------
         void print(){
             cout << "\nPrint result!!!! \n\n";
@@ -225,61 +333,7 @@ class Priority_queue{
             }
 
             return node;
-        }
-
-
-        //------------------operator-------------------------
-        
-        bool operator==(Priority_queue second){
-            if(len  != second.getLen()){
-                return false;
-            }
-
-            Node* temp1 = head;
-            Node* temp2 = second.head;
-            for(int i = 0; i < len; i++){
-                cout << "temp1" << temp1 -> value << "\t";
-                if(temp1 -> value != temp2->value){
-                    return false;
-                }
-                temp1 = temp1 -> next;
-                temp2 = temp2 -> next;
-
-            }
-            return true;
-        }
-
-        Priority_queue& operator=(const Priority_queue& copy_list){
-
-            
-            if(!isEmpty()){
-                while (head!=tail){
-                    head = head -> next;
-                    delete head -> previous;
-                }
-                delete head;
-                // head = tail = nullptr;
-            }
-            
-            Node* h = copy_list.head;
-            while (h!=nullptr){
-                push_back(h -> value);
-                h = h -> next;
-            }
-            return *this;
-        }
-
-        int operator[](int n){
-            if(n > len - 1){
-                cout << " WARNING!!!   segmentation fault :( \n"; 
-                return -1;
-            }
-
-            Node* node = getNode(n);
-
-            return node -> value;
-
-        }
+        }       
 };
 
 
@@ -287,12 +341,28 @@ class Priority_queue{
 int main(){
 
     Priority_queue pq;
-    for(int i = 0; i < 5; i++){
-        // ll.push_front(i);
-        // ll.push_back(i);
+   
+    pq.add(10);
+    pq.add(0);
+    pq.add(50);
+    pq.add(5);
+    pq.add(25);
+
+    pq.print();
+
+    Priority_queue pq1;
+    pq1.add(10, true);
+    pq1.add(0, true);
+    pq1.add(50, true);
+    pq1.add(5, true);
+    pq1.add(25, true);
+    pq1.print();
+
+    if(pq == pq1){
+        cout << "\nTrue \n";
+    }else{
+        cout << "\nFalse \n";
     }
-
-
 
     return 0;
 

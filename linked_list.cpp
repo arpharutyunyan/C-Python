@@ -242,7 +242,7 @@ class LinkedList{
                     delete head -> previous;
                 }
                 delete head;
-                // head = tail = nullptr;
+                head = tail = nullptr;
             }
             
             Node* h = copy_list.head;
