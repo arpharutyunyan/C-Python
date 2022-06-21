@@ -232,59 +232,60 @@ class Priority_queue{
                 return;
             }
 
-            len++;
-
-            Node* node = head;
-            Node* addedNode = new Node(n);
-
             if(!reverse){
-                while (node->next!=nullptr){
-                
-                    if(n > node->value and n < node->next->value){
-                        addedNode -> next = node->next; 
-                        addedNode -> previous = node;
-                        node -> next -> previous = addedNode; 
-                        node -> next = addedNode; 
-                        return;
+                if(n <= head->value){
+
+                    push_front(n);
+
+                }else if(n >= tail->value){
+
+                    push_back(n);
+
+                }else{
+
+                    Node* node = head;
+                    Node* addedNode = new Node(n);
+
+                    while (n > node->value){
+                        node = node->next;
                     }
-                    node = node->next;
-                }
+                    
+                    addedNode -> next = node; 
+                    addedNode -> previous = node->previous;
+                    node -> previous -> next = addedNode; 
+                    node -> previous = addedNode; 
 
-                if(n > node->value){               // then we have one element or compair with last element
-                    node -> next = addedNode;
-                    addedNode -> previous = node;
-                    tail = addedNode;                // node will be the tail
-                }else{                       
-                    head -> previous = addedNode;
-                    addedNode -> next = head;
-                    head = addedNode;         // node will be the head
+                    len++;
+                    return;
                 }
-
-            }else{   // sort reverse
-                while (node->next!=nullptr){
                 
-                    if(n < node->value and n > node->next->value){
-                        addedNode -> next = node->next; 
-                        addedNode -> previous = node;
-                        node -> next -> previous = addedNode; 
-                        node -> next = addedNode; 
-                        return;
-                    }
-                    node = node->next;
-                }
+            }else{
+                if(n >= head->value){
 
-                if(n < node->value){               // then we have one element or compair with last element
-                    node -> next = addedNode;
-                    addedNode -> previous = node;
-                    tail = addedNode;                // node will be the tail
-                }else{                       
-                    head -> previous = addedNode;
-                    addedNode -> next = head;
-                    head = addedNode;         // node will be the head
+                    push_front(n);
+
+                }else if(n <= tail->value){
+
+                    push_back(n);
+
+                }else{
+
+                    Node* node = head;
+                    Node* addedNode = new Node(n);
+
+                    while (n < node->value){
+                        node = node->next;
+                    }
+                    
+                    addedNode -> next = node; 
+                    addedNode -> previous = node->previous;
+                    node -> previous -> next = addedNode; 
+                    node -> previous = addedNode; 
+
+                    len++;
+                    return;
                 }
             }
-
-            
         }
 
         //----------------print-------------------
@@ -341,10 +342,11 @@ class Priority_queue{
 int main(){
 
     Priority_queue pq;
-   
+
     pq.add(10);
     pq.add(0);
     pq.add(50);
+    pq.add(5);
     pq.add(5);
     pq.add(25);
 
@@ -355,6 +357,7 @@ int main(){
     pq1.add(0, true);
     pq1.add(50, true);
     pq1.add(5, true);
+    pq1.add(25, true);
     pq1.add(25, true);
     pq1.print();
 

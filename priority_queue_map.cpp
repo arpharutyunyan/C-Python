@@ -90,7 +90,7 @@ class Priority_queue_map{
             return -1;
         }
 
-    private:
+    public:
 
         Node* head = nullptr;
         Node* tail = nullptr;
@@ -122,28 +122,52 @@ class Priority_queue_map{
             }   
         }
 
-        int pop_back(){
+        Node* pop_back(){
 
             if(isEmpty()){
-                return -1;
+                return nullptr;
             }
     
-            int res_key = tail -> key;  // in all cases return the value of that tail
+            Node* deleted_tail = tail;  // in all cases return the value of that tail
             len--;
 
             if(tail == head){     // check the last element
                 delete tail;
                 tail = head = nullptr;
                 
-                return res_key; 
+                return deleted_tail; 
             }
 
             tail = tail -> previous; 
             delete tail -> next;  
             tail -> next = nullptr; 
             
-            return res_key;
+            // cout << deleted_tail->key << " : " << deleted_tail->key << endl;
+            return deleted_tail;
         }
+
+        // int pop_back(){
+
+        //     if(isEmpty()){
+        //         return -1;
+        //     }
+    
+        //     int res_key = tail -> key;  // in all cases return the value of that tail
+        //     len--;
+
+        //     if(tail == head){     // check the last element
+        //         delete tail;
+        //         tail = head = nullptr;
+                
+        //         return res_key; 
+        //     }
+
+        //     tail = tail -> previous; 
+        //     delete tail -> next;  
+        //     tail -> next = nullptr; 
+            
+        //     return res_key;
+        // }
 
         //--------------front--------------------
 
@@ -243,42 +267,79 @@ class Priority_queue_map{
                 return;
             }
 
-            Node* node = head;
-            Node* addedNode = new Node(k, v);
+            if(k < head->key){
 
-            while (node->next!=nullptr){
+                push_front(k, v);
 
-                if(node->key == k){
-                    node->value = v;
+            }else if(k > tail->key){
+
+                push_back(k, v);
+
+            }else{
+
+                if(find(k)){
+                    address_of_repeated_key->value = v;
                     return;
-                }
-            
-                if(k > node->key and k < node->next->key){
-                    addedNode -> next = node->next; 
-                    addedNode -> previous = node;
-                    node -> next -> previous = addedNode; 
-                    node -> next = addedNode; 
+                }else{
+
+                    Node* node = head;
+                    Node* addedNode = new Node(k, v);
+
+                    while (k > node->key){
+                        node = node->next;
+                    }
+                    
+                    addedNode -> next = node; 
+                    addedNode -> previous = node->previous;
+                    node -> previous -> next = addedNode; 
+                    node -> previous = addedNode; 
 
                     len++;
                     return;
                 }
-                node = node->next;
+               
             }
+        }
 
-            if(node->key == k){       // checking eqauls for the last element
-                node->value = v;
+        void add_tail(int k, int v){
+
+            if(isEmpty()){
+                push_back(k, v);
                 return;
             }
 
-            if(k > node->key){               // then we have one element or compair with last element
-                node -> next = addedNode;
-                addedNode -> previous = node;
-                tail = addedNode;                // node will be the tail
-            }else{                       
-                head -> previous = addedNode;
-                addedNode -> next = head;
-                head = addedNode;         // node will be the head
+            if(k < head->key){
+
+                push_front(k, v);
+
+            }else if(k > tail->key){
+
+                push_back(k, v);
+
+            }else{
+
+                if(find(k)){
+                    address_of_repeated_key->value = v;
+                    return;
+                }else{
+
+                    Node* node = tail;
+                    Node* addedNode = new Node(k, v);
+
+                    while (k < node->key){
+                        node = node->previous;
+                    }
+                    
+                    addedNode -> next = node -> next; 
+                    addedNode -> previous = node;
+                    node -> next -> previous = addedNode; 
+                    node -> next = addedNode; 
+                    
+                    len++;
+                    return;
+                }
             }
+               
         }
 
         int getLen(){
@@ -309,21 +370,26 @@ int main(){
     map.add(50, 500);
     map.add(5, 200);
     map.add(25, 400);
+    map.add(25, 400);
+    map.add(25, 1000);
     
-
+    
     map.print();
 
+    map.pop_back();
+    // cout << map.pop_back()->value << "\n";
 
+    map.print();
     Priority_queue_map map2;
 
-    map2.add(10, 300);
-    map2.add(0, 100);
-    map2.add(50, 500);
-    map2.add(5, 200);
-    map2.add(25, 400);
-    map2.add(25, 500);
-    map2.add(25, 600);
-    map2.add(25, 700);
+    map2.add_tail(10, 300);
+    map2.add_tail(0, 100);
+    map2.add_tail(50, 500);
+    map2.add_tail(5, 200);
+    map2.add_tail(25, 400);
+    map2.add_tail(25, 500);
+    map2.add_tail(25, 600);
+    map2.add_tail(25, 700);
     map2.print();
 
 
