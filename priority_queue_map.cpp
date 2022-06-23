@@ -122,13 +122,13 @@ class Priority_queue_map{
             }   
         }
 
-        Node* pop_back(){
+        Node pop_back(){
 
-            if(isEmpty()){
-                return nullptr;
-            }
+            // if(isEmpty()){
+            //     return nullptr;
+            // }
     
-            Node* deleted_tail = tail;  // in all cases return the value of that tail
+            Node deleted_tail(tail->key, tail->value);  // in all cases return the value of that tail
             len--;
 
             if(tail == head){     // check the last element
@@ -142,7 +142,7 @@ class Priority_queue_map{
             delete tail -> next;  
             tail -> next = nullptr; 
             
-            // cout << deleted_tail->key << " : " << deleted_tail->key << endl;
+            cout << deleted_tail.key << " : " << deleted_tail.value << endl;
             return deleted_tail;
         }
 
@@ -377,27 +377,28 @@ int main(){
     map.print();
 
     map.pop_back();
+    map.pop_back();
     // cout << map.pop_back()->value << "\n";
 
     map.print();
-    Priority_queue_map map2;
+    // Priority_queue_map map2;
 
-    map2.add_tail(10, 300);
-    map2.add_tail(0, 100);
-    map2.add_tail(50, 500);
-    map2.add_tail(5, 200);
-    map2.add_tail(25, 400);
-    map2.add_tail(25, 500);
-    map2.add_tail(25, 600);
-    map2.add_tail(25, 700);
-    map2.print();
+    // map2.add_tail(10, 300);
+    // map2.add_tail(0, 100);
+    // map2.add_tail(50, 500);
+    // map2.add_tail(5, 200);
+    // map2.add_tail(25, 400);
+    // map2.add_tail(25, 500);
+    // map2.add_tail(25, 600);
+    // map2.add_tail(25, 700);
+    // map2.print();
 
 
-    if(map == map2){
-        cout << "True" << endl;
-    }else{
-        cout << "False" << endl;
-    }
+    // if(map == map2){
+    //     cout << "True" << endl;
+    // }else{
+    //     cout << "False" << endl;
+    // }
 
     return 0;
 
