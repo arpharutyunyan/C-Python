@@ -37,7 +37,8 @@ class Priority_queue{
                 h = h -> next;
             }
         }
-        
+
+               
         ~Priority_queue(){
             cout << "destructor \n";
 
@@ -350,15 +351,18 @@ int main(){
     pq.add(5);
     pq.add(25);
 
+    cout << "pq \n"; 
     pq.print();
 
     Priority_queue pq1;
+
     pq1.add(10, true);
     pq1.add(0, true);
     pq1.add(50, true);
     pq1.add(5, true);
     pq1.add(25, true);
     pq1.add(25, true);
+    cout << "pq1 \n"; 
     pq1.print();
 
     if(pq == pq1){

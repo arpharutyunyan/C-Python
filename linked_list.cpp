@@ -163,9 +163,88 @@ class LinkedList{
             return false;
         }
 
+        void insert_sort(){
+
+            if(head == tail){
+                return;
+            }
+
+            for(Node* temp = head->next; temp!=nullptr; temp=temp->next){
+
+                Node* pre = temp->previous;
+                while (pre!=nullptr and temp->value < pre->value){
+                    pre = pre->previous;
+                }
+
+                if(pre==nullptr){   // the first element
+
+                    Node* t = temp;       // save the node temp, because in the loop I will lost the temp place
+
+                    //disconnect temp
+                    if(temp->next!=nullptr){                 
+                        temp->previous->next = temp->next;
+                        temp->next->previous = temp->previous;
+                    }else{                                  // if the next is null it is the tail: last element
+                        temp->previous->next = nullptr;
+                        tail = temp->previous;
+                    }         
+                    
+                    temp->previous = nullptr;    // change node connection
+                    temp->next = head;
+                    head->previous = temp;
+                    head = temp;
+
+                    temp = t->next;
+
+
+                }else if(temp->value >= pre->value and pre != temp->previous){  // 
+
+                    Node* t = temp;
+
+                    //disconnect temp
+                    if(temp->next!=nullptr){                      
+                        temp->previous->next = temp->next;
+                        temp->next->previous = temp->previous;
+                    }else{                                           // if the next is null it is the tail: last element
+                        temp->previous->next = nullptr;
+                        tail = temp->previous;
+                    }  
+
+                    temp->previous = pre;                  // change node connection
+                    temp->next = pre->next;
+
+                    pre->next->previous = temp;
+                    pre->next = temp;
+
+                    temp = t->next;
+                }
+            }
+            
+        }
+
+        void insert_sort_swap(){
+
+            if(head == tail){
+                return;
+            }
+
+            for(Node* temp = head->next; temp!=nullptr; temp=temp->next){
+
+                Node* pre = temp->previous;
+                while (pre!=nullptr and pre->value > pre->next->value){
+
+                    int x = pre->next->value;
+                    pre->next->value = pre->value;
+                    pre->value = x;
+
+                    pre = pre->previous;
+                }
+            }
+        }
+
         //----------------print-------------------
         void print(){
-            cout << "\nPrint result!!!! \n\n";
+            //cout << "\nPrint result!!!! \n\n";
             if(isEmpty()){
                 cout << "nothing to print \n";
                 return;
@@ -192,7 +271,7 @@ class LinkedList{
         //-----------get-------------------------
         
 
-        int getLen(){
+        int size(){
             return len;
         }
 
@@ -215,7 +294,7 @@ class LinkedList{
         //------------------operator-------------------------
         
         bool operator==(LinkedList second){
-            if(len  != second.getLen()){
+            if(len  != second.size()){
                 return false;
             }
 
@@ -271,35 +350,23 @@ class LinkedList{
 int main(){
 
     LinkedList ll;
-    for(int i = 0; i < 5; i++){
-        // ll.push_front(i);
-        ll.push_back(i);
-    }
-
-    // if(ll.find(0)){
-    //     cout << "True" << endl;
-    // }else{
-    //     cout << "False" << endl;
-    // }
-
-    LinkedList second;
-
-    second = ll;
-    // cout << "len = " << second.getLen() << endl;
-
-    ll = second;
-    ll.print();
-
+    ll.push_back(100);
+    ll.push_back(50);
+    ll.push_back(10);
+    ll.push_back(2);
     ll.push_back(20);
+    ll.push_back(15);
+    ll.push_back(0);
+
     ll.print();
 
+    cout << "insert_sort \n\n";
+    ll.insert_sort();
+    ll.print();
 
-
-
-    // for(int i = 0; i < 2; i++){
-    //     cout << "pop = " << ll.pop_back() << endl;
-    //     // cout << "pop = " << ll.pop_front() << endl;
-    // }
+    cout << "insert_sort_swap \n\n";
+    ll.insert_sort_swap();
+    ll.print();
 
     return 0;
 

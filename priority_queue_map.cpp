@@ -33,6 +33,8 @@ class Priority_queue_map{
             }
         }
 
+        
+
         ~Priority_queue_map(){
             if(!isEmpty()){
 
@@ -381,24 +383,24 @@ int main(){
     // cout << map.pop_back()->value << "\n";
 
     map.print();
-    // Priority_queue_map map2;
+    Priority_queue_map map2;
 
-    // map2.add_tail(10, 300);
-    // map2.add_tail(0, 100);
-    // map2.add_tail(50, 500);
-    // map2.add_tail(5, 200);
-    // map2.add_tail(25, 400);
-    // map2.add_tail(25, 500);
-    // map2.add_tail(25, 600);
-    // map2.add_tail(25, 700);
-    // map2.print();
+    map2.add_tail(10, 300);
+    map2.add_tail(0, 100);
+    map2.add_tail(50, 500);
+    map2.add_tail(5, 200);
+    map2.add_tail(25, 400);
+    map2.add_tail(25, 500);
+    map2.add_tail(25, 600);
+    map2.add_tail(25, 700);
+    map2.print();
 
 
-    // if(map == map2){
-    //     cout << "True" << endl;
-    // }else{
-    //     cout << "False" << endl;
-    // }
+    if(map == map2){
+        cout << "True" << endl;
+    }else{
+        cout << "False" << endl;
+    }
 
     return 0;
 

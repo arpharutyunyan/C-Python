@@ -48,6 +48,7 @@ class Bst_map{
             }
         }
 
+
         ~Bst_map(){
 
             if(!isEmpty()){
@@ -264,7 +265,7 @@ int main(){
     map.add(40, 30);
     map.print();
 
-    Bst_map map2;
+    Bst_map map2 ;
     map2.add(50, 10);
     map2.add(60, 20);
     map2.add(60, 30);

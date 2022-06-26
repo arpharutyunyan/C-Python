@@ -45,6 +45,13 @@ class Bst{
             }
         }
 
+        Bst(Bst&& second){
+
+            this->root = second.root;
+            second.root = nullptr;
+            
+        }
+
         
         ~Bst(){
 
@@ -327,31 +334,16 @@ int main(){
 
     bst.print();
 
-    cout << "\n";
-    bst.del(15);
+    Bst bst2 = std::move(bst);
+
+    // cout << "\n";
+    // bst.del(15);
+    cout <<"bst2 \n";
+    bst2.print();
+
+    cout <<"bst \n";
     bst.print();
 
-    // Bst x(bst);
-    // x = bst;
-    // cout << "\n= \n";
-    // x.print();
-
-    // Bst y;
-    // y=x;
-    // y.add(50);
-    // y.add(30);
-    // y.add(300);
-
-    // if(x != x){
-    //     cout << "\nTrue \n";
-    // }else{
-    //     cout << "\nFalse \n";
-    // }
-    // cout << "----------A-Z-----------\n"; 
-    // bst.print_AZ();
-
-    // cout << "\n----------Z-A-----------\n"; 
-    // bst.print_ZA();
 
     return 0;
 }
