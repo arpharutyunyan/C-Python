@@ -9,6 +9,7 @@ class Person{
 
     public:
 
+        static int count;
         Person(string n, string s, int age){
             name = n;
             surname = s;
@@ -17,6 +18,8 @@ class Person{
 
         Person(){
             cout << "---Non argument constructor---" << endl;
+            count++;
+            //cout << "count = " << count << endl;;
         }
 
         void print(){
@@ -52,17 +55,21 @@ class Person{
             return age;
         }
 };
+int Person::count = 0;
 
 int main(){
 
+    
     Person alpinist;
-    alpinist.setName("Anna");
-    cout << alpinist.getName() << endl;
+    // alpinist.setName("Anna");
+    // cout << alpinist.getName() << endl;
 
     Person doctor;
     
-    doctor.setAge(25);
-    cout << doctor.getAge() << endl;
+    // doctor.setAge(25);
+    // cout << doctor.getAge() << endl;
+
+    cout << Person::count << endl;
 
     return 0;
 }

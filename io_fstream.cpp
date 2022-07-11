@@ -48,6 +48,7 @@ int main(){
 
             if(regex_match(phrase, sm, r)){
                 ofs << (phrase + "\n");
+
             }
         }    
     }
