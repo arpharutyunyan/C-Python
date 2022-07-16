@@ -37,7 +37,7 @@ class Stack{
         void push(int n){
             Node* temp = new Node(n);
             if(isEmpty()){
-                cout << "stack is empty \n\n"; 
+                //cout << "stack is empty \n\n"; 
                 head = tail = temp;
             }else{
                 tail -> next = temp;
@@ -47,10 +47,12 @@ class Stack{
         }
 
         int pop(){
+     
             if(isEmpty()){
-                cout << "stack is empty \n"; 
-                return -1;
+                
+                throw 100;
             }
+          
     
             int res = tail -> value;
             if(tail->previous != nullptr){  
@@ -62,14 +64,14 @@ class Stack{
             }
 
             delete tail;
-            tail = nullptr;
+            tail = head = nullptr;
             return res; 
         }
 
        
         //----------------print-------------------
         void print(){
-            cout << "\nPrint result!!!! \n\n";
+            //cout << "\nPrint result!!!! \n\n";
             if(isEmpty()){
                 cout << "nothing to print \n";
                 return;
@@ -92,12 +94,19 @@ int main(){
         st.push(i);
     }
 
-    // st.print();  // running print() function gives error in valgrind: for() loops touch tail->next = nullptr
-
-    for(int i = 0; i < 3; i++){
-        cout << "pop = " << st.pop() << endl;
+    // st.print(); 
+    try{
+        for(int i = 0; i < 6; i++){
+            int res = st.pop();
+            cout << "pop = " << res << endl;
+        }
     }
-
+    catch(int ex){
+        if(ex == 100){
+            cout << "stack is empty \n"; 
+        }
+    }
+    
     // st.print();
 
     return 0;

@@ -49,8 +49,8 @@ class Queue{
 
         int pop(){
             if(isEmpty()){
-                cout << "stack is empty \n"; 
-                return -1;
+                
+                throw 100;
             }
 
             int res = head -> value;
@@ -94,11 +94,18 @@ int main(){
         q.push(i);
     }
 
-    q.print();
-
-    for(int i = 0; i < 3; i++){
-        cout << "pop = " << q.pop() << endl;
+    // q.print();
+    try{
+        for(int i = 0; i < 6; i++){
+            int res = q.pop();
+            cout << "pop = " << res << endl;
+        }
+    }catch(int ex){
+        if(ex == 100){
+            cout << "stack is empty \n"; 
+        }
     }
+    
 
     return 0;
 }

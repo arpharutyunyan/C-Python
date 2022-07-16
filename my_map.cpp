@@ -29,7 +29,7 @@ class MyMap{
         Node* address_of_repeated_key = nullptr;  // initialising in the find() function and save the address of the repeated nodes
 
         MyMap(){
-            cout << "Non argument" << endl;
+            // cout << "Non argument" << endl;
         }
 
         MyMap(MyMap& map){
@@ -79,7 +79,7 @@ class MyMap{
         int pop_back(){
 
             if(isEmpty()){
-                return -1;
+                throw 'e';
             }
     
             int res_key = tail -> key;  // in all cases return the value of that tail
@@ -120,7 +120,7 @@ class MyMap{
         int pop_front(){
 
             if(isEmpty()){
-                return -1;
+                throw 'e';
             }
 
             int res_key = head -> value;    // in all cases return the value of that head
@@ -268,7 +268,7 @@ class MyMap{
                 return address_of_repeated_key -> value;
             }
 
-            return -1;
+            throw -1;
         }
 };
 
@@ -281,62 +281,26 @@ int main(){
         map.push_back(i, i+10);
     }
 
-    map.print();
+    try{
 
-    // map.insert(2, 15, 100);
+        cout << map[10] << endl;
 
-    // map.print();
+        for(int i = 0; i < 6; i++){
+            // map.pop_front();
+            map.pop_back();
+        }
 
-    // map.push_back(2, 5);
-    // map.push_front(1, 5);
-
-    // map.print();
-
-    MyMap map2(map);
-    // map2.print();
-
-    int* keys = nullptr;
-    keys = map2.keys();
-
-    int* values = nullptr;
-    values = map2.values();
-
-    cout << "keys" << endl << "[";
-    for(int i=0; i<map2.getLen(); i++){
-        cout << keys[i] << ", ";
-    }
-    cout << "]" << endl;
-
-
-    cout << "values" << endl << "[";
-    for(int i=0; i<map2.getLen(); i++){
-        cout << values[i] << ", ";
-    }
-    cout << "]" << endl;
-
-    if(keys){
-        delete[] keys;
+    }catch(char ex){
+        if(ex == 'e'){
+            cout << "map is empty \n"; 
+        }
+    }catch(int ex){
+        if(ex == -1){
+            cout << "index out of bounds of range \n";
+        }
     }
 
-    if(values){
-        delete[] values;
-    }
-    // cout << map2[500] << endl;
-
-    // MyMap map3;
-    // map3 = map2;
-    // map3.print();
-
-    // if(map == map2){
-    //     cout << "True" << endl;
-    // }else{
-    //     cout << "False" << endl;
-    // }
-
-    // for(int i = 0; i < 2; i++){
-    //     // cout << "key = " << map.pop_front() << endl;
-    //     cout << "key = " << map.pop_back() << endl;
-    // }
+    
     
 
     return 0;
