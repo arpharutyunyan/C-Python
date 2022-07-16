@@ -1,5 +1,72 @@
 #include <iostream>
+#include <ctime>
 using namespace std;
+
+class IndexOutOfBounds : public exception{
+    public:
+        int index;
+        int len;
+        string exp_case;
+        string solution;
+        time_t time;
+
+        IndexOutOfBounds(int index, int len, string exp_case, string solution, time_t time){
+            this->index = index;
+            this->len = len;
+            this->exp_case = exp_case;
+            this->solution = solution;
+            this->time = time;
+        }
+
+        void info(){
+            cout << "-----------------------------------------\n";
+            cout << "index: " << index << endl;
+            cout << "len: " << len << endl;
+            cout << "case: " << exp_case << endl;
+            cout << "solution: " << solution << endl;
+            cout << "in time:  " << ctime(&time) << endl;
+            cout << "-----------------------------------------\n";
+
+        }
+
+        const char* what() const throw(){
+            return "some text in IndexOutOfBounds";
+        }
+};
+
+class NotFound : public exception{
+    public:
+        string func_name;
+        string exp_case;
+        string solution;
+        time_t time;
+        int key;
+
+        NotFound(string func_name, string exp_case, string solution, time_t time, int key = -1){
+            this->func_name = func_name;
+            this->exp_case = exp_case;
+            this->solution = solution;
+            this->time = time;
+            this->key = key;
+        }
+
+        const char* what() const throw(){
+            return "some text in EmptyMap";
+        }
+
+        void info(){
+            cout << "-----------------------------------------\n";
+            cout << "calling function: " << func_name << endl;
+            cout << "case: " << exp_case << endl;
+            cout << "solution: " << solution << endl;
+            cout << "in time:  " << ctime(&time) << endl;
+            if(key > -1){
+                cout << "key:  " << key << endl;
+            }
+            cout << "-----------------------------------------\n";
+
+        }
+};
 
 class Node{
 
@@ -79,7 +146,8 @@ class MyMap{
         int pop_back(){
 
             if(isEmpty()){
-                throw 'e';
+                NotFound emap("pop_back", "Map is empty.", "First push anything.", time(0));
+                throw emap;
             }
     
             int res_key = tail -> key;  // in all cases return the value of that tail
@@ -120,7 +188,8 @@ class MyMap{
         int pop_front(){
 
             if(isEmpty()){
-                throw 'e';
+                NotFound emap("pop_front", "Map is empty.", "First push anything.", time(0));
+                throw emap;
             }
 
             int res_key = head -> value;    // in all cases return the value of that head
@@ -149,10 +218,17 @@ class MyMap{
                 return;
             }
 
-            if(index > len-1){   // if input invalid index, adding node after the last element 
-                cout << "the lenght of list is " << len << ". Adding node will be after the last element!" << endl;
-                push_back(k, v);
-                return;
+            if(index < 0 ){
+                IndexOutOfBounds exp(index, len, "Index is small 0.", "Index must be great than 0.", time(0));
+                throw exp;
+            }
+
+            if(index > len){   // if input invalid index, adding node after the last element 
+                // cout << "the lenght of list is " << len << ". Adding node will be after the last element!" << endl;
+                // push_back(k, v);
+                // return;
+                IndexOutOfBounds exp(index, len, "Index is great the length.", "Index must be small or equal the length.", time(0));
+                throw exp;
             }
 
             Node* addedNode = new Node(k, v);
@@ -268,7 +344,9 @@ class MyMap{
                 return address_of_repeated_key -> value;
             }
 
-            throw -1;
+            NotFound emap("get operator", "Key is not exist.", "First push this key.", time(0), k);
+            throw emap;
+            
         }
 };
 
@@ -276,32 +354,22 @@ int main(){
 
     MyMap map;
 
-    for(int i = 0; i < 5; i++){
-        // map.push_front(i, i+10);
-        map.push_back(i, i+10);
-    }
-
     try{
 
-        cout << map[10] << endl;
+        map[2];
+        map.pop_back();
+        map.pop_front();
+        map.insert(2, 20, -5);
+        map.insert(2, 20, -5);
+        map.insert(2, 20, 5);
 
-        for(int i = 0; i < 6; i++){
-            // map.pop_front();
-            map.pop_back();
-        }
-
-    }catch(char ex){
-        if(ex == 'e'){
-            cout << "map is empty \n"; 
-        }
-    }catch(int ex){
-        if(ex == -1){
-            cout << "index out of bounds of range \n";
-        }
+    }catch(NotFound emap){
+        emap.info();
+    }catch(IndexOutOfBounds iexp){
+        iexp.info();   
+    }catch(exception& ex){
+        cout << ex.what();
     }
-
-    
-    
 
     return 0;
 
