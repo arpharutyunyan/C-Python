@@ -2,6 +2,7 @@
 #include <ctime>
 using namespace std;
 
+// template<class I, class L, class C, class S>
 class IndexOutOfBounds : public exception{
     public:
         int index;
@@ -68,32 +69,34 @@ class NotFound : public exception{
         }
 };
 
+template<class N>
 class Node{
 
     public:
-        int value = 0;
-        int key = 0;
+        N value = 0;
+        N key = 0;
         Node* previous = nullptr;
         Node* next = nullptr;
 
-        Node(int k, int v){
+        Node(N k, N v){   //  ?
             key = k;
             value = v;
         }
 };
 
-
+// template<class N, class I, class L, class C, class S>
+template<class N>
 class MyMap{
 
     public:
 
-        Node* head = nullptr;
-        Node* tail = nullptr;
+        Node<N>* head = nullptr;
+        Node<N>* tail = nullptr;
         int len = 0;
 
         // int* arr_of_keys = NULL;  // pointer of arrays wich is using in function keys() and contains all keys
         // int* arr_of_values = NULL;   // pointer of arrays wich is using in function vallues() and contains all keys
-        Node* address_of_repeated_key = nullptr;  // initialising in the find() function and save the address of the repeated nodes
+        Node<N>* address_of_repeated_key = nullptr;  // initialising in the find() function and save the address of the repeated nodes
 
         MyMap(){
             // cout << "Non argument" << endl;
@@ -101,7 +104,7 @@ class MyMap{
 
         MyMap(MyMap& map){
 
-            Node* h = map.head;
+            Node<N>* h = map.head;
             while (h!=nullptr){
                 push_back(h -> key, h->value);
                 h = h -> next;
@@ -127,15 +130,15 @@ class MyMap{
 
         //-----------back---------------
 
-        void push_back(int k, int v){
+        void push_back(N k, N v){
 
             if(isEmpty()){          
-                head = tail = new Node(k, v);         // create the first element
+                head = tail = new Node<N>(k, v);         // create the first element
                 len++;
             }else if(find(k)){
                 address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
             }else{
-                Node* node = new Node(k, v);
+                Node<N>* node = new Node<N>(k, v);
                 tail -> next = node;
                 node -> previous = tail;
                 tail = node;
@@ -169,15 +172,15 @@ class MyMap{
 
         //--------------front--------------------
 
-        void push_front(int k, int v){
+        void push_front(N k, N v){
 
             if(isEmpty()){                   // create the first element
-                head = tail = new Node(k, v);
+                head = tail = new Node<N>(k, v);
                 len++;
             }else if(find(k)){
                 address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
             }else{
-                Node* node = new Node(k, v);
+                Node<N>* node = new Node<N>(k, v);
                 head -> previous = node;
                 node -> next = head;
                 head = node;
@@ -211,7 +214,7 @@ class MyMap{
 
         //-----------------insert----------------------
 
-        void insert(int k, int v, int index){
+        void insert(N k, N v, int index){
 
             if(find(k)){                   // check if keys repeated, change only the value
                 address_of_repeated_key -> value = v;
@@ -219,6 +222,8 @@ class MyMap{
             }
 
             if(index < 0 ){
+                // IndexOutOfBounds<I, L, C, S> exp(index, len, "Index is small 0.", "Index must be great than 0.", time(0));
+
                 IndexOutOfBounds exp(index, len, "Index is small 0.", "Index must be great than 0.", time(0));
                 throw exp;
             }
@@ -231,7 +236,7 @@ class MyMap{
                 throw exp;
             }
 
-            Node* addedNode = new Node(k, v);
+            Node<N>* addedNode = new Node<N>(k, v);
 
             if(index == 0){
                 push_front(k, v);
@@ -239,7 +244,7 @@ class MyMap{
                 push_back(k, v);
             }else{
 
-                Node* node = head;               // get node with given index
+                Node<N>* node = head;               // get node with given index
                 for(int i = 0; i < index; i++){
                     node = node -> next;
                 }
@@ -252,9 +257,9 @@ class MyMap{
             }
         }
 
-        bool find(int k){
+        bool find(N k){
 
-            for(Node* node = head; node != nullptr; node = node -> next){
+            for(Node<N>* node = head; node != nullptr; node = node -> next){
                 if(k == node -> key){
                     address_of_repeated_key = node;   // save the adrress of repeated key
 
@@ -272,7 +277,7 @@ class MyMap{
 
             cout << "\nPrint result!!!! \n\n";
             
-            for(Node* h = head; h != nullptr; h = h -> next){
+            for(Node<N>* h = head; h != nullptr; h = h -> next){
                 cout << h -> key << ":  " << h -> value << endl;
                 
             } 
@@ -286,7 +291,7 @@ class MyMap{
         int* keys(){
             int* arr_of_keys;
             arr_of_keys = new int[len];
-            Node* h = head;
+            Node<N>* h = head;
             for(int i=0; i<len; i++){
                 arr_of_keys[i] = h -> key;
                 h = h -> next;
@@ -298,7 +303,7 @@ class MyMap{
         int* values(){
             int* arr_of_values;
             arr_of_values = new int[len];
-            Node* h = head;
+            Node<N>* h = head;
             for(int i=0; i<len; i++){
                 arr_of_values[i] = h -> value;
                 h = h -> next;
@@ -310,7 +315,7 @@ class MyMap{
 
         MyMap& operator=(const MyMap& map){
 
-            Node* h = map.head;
+            Node<N>* h = map.head;
             while (h!=nullptr){
                 push_back(h -> key, h -> value);
                 h = h -> next;
@@ -324,8 +329,8 @@ class MyMap{
                 return false;
             }
 
-            Node* temp1 = head;
-            Node* temp2 = map.head;
+            Node<N>* temp1 = head;
+            Node<N>* temp2 = map.head;
             for(int i = 0; i < len; i++){
         
                 if(temp1 -> key != temp2 -> key){
@@ -352,7 +357,7 @@ class MyMap{
 
 int main(){
 
-    MyMap map;
+    MyMap<int> map;
 
     try{
 
