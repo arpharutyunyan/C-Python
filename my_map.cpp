@@ -2,16 +2,16 @@
 #include <ctime>
 using namespace std;
 
-// template<class I, class L, class C, class S>
+template<class I, class S>
 class IndexOutOfBounds : public exception{
     public:
-        int index;
-        int len;
-        string exp_case;
-        string solution;
+        I index;
+        I len;
+        S exp_case;
+        S solution;
         time_t time;
 
-        IndexOutOfBounds(int index, int len, string exp_case, string solution, time_t time){
+        IndexOutOfBounds(I index, I len, S exp_case, S solution, time_t time){
             this->index = index;
             this->len = len;
             this->exp_case = exp_case;
@@ -35,15 +35,16 @@ class IndexOutOfBounds : public exception{
         }
 };
 
+template<class I, class S>
 class NotFound : public exception{
     public:
-        string func_name;
-        string exp_case;
-        string solution;
+        S func_name;
+        S exp_case;
+        S solution;
         time_t time;
-        int key;
+        I key;
 
-        NotFound(string func_name, string exp_case, string solution, time_t time, int key = -1){
+        NotFound(S func_name, S exp_case, S solution, time_t time, I key = -1){
             this->func_name = func_name;
             this->exp_case = exp_case;
             this->solution = solution;
@@ -69,34 +70,34 @@ class NotFound : public exception{
         }
 };
 
-template<class N>
+template<class I>
 class Node{
 
     public:
-        N value = 0;
-        N key = 0;
+        I value = 0;
+        I key = 0;
         Node* previous = nullptr;
         Node* next = nullptr;
 
-        Node(N k, N v){   //  ?
+        Node<I>(I k, I v){   //  ?
             key = k;
             value = v;
         }
 };
 
 // template<class N, class I, class L, class C, class S>
-template<class N>
+template<class I, class S>
 class MyMap{
 
     public:
 
-        Node<N>* head = nullptr;
-        Node<N>* tail = nullptr;
+        Node<I>* head = nullptr;
+        Node<I>* tail = nullptr;
         int len = 0;
 
         // int* arr_of_keys = NULL;  // pointer of arrays wich is using in function keys() and contains all keys
         // int* arr_of_values = NULL;   // pointer of arrays wich is using in function vallues() and contains all keys
-        Node<N>* address_of_repeated_key = nullptr;  // initialising in the find() function and save the address of the repeated nodes
+        Node<I>* address_of_repeated_key = nullptr;  // initialising in the find() function and save the address of the repeated nodes
 
         MyMap(){
             // cout << "Non argument" << endl;
@@ -104,7 +105,7 @@ class MyMap{
 
         MyMap(MyMap& map){
 
-            Node<N>* h = map.head;
+            Node<I>* h = map.head;
             while (h!=nullptr){
                 push_back(h -> key, h->value);
                 h = h -> next;
@@ -130,15 +131,15 @@ class MyMap{
 
         //-----------back---------------
 
-        void push_back(N k, N v){
+        void push_back(I k, I v){
 
             if(isEmpty()){          
-                head = tail = new Node<N>(k, v);         // create the first element
+                head = tail = new Node<I>(k, v);         // create the first element
                 len++;
             }else if(find(k)){
                 address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
             }else{
-                Node<N>* node = new Node<N>(k, v);
+                Node<I>* node = new Node<I>(k, v);
                 tail -> next = node;
                 node -> previous = tail;
                 tail = node;
@@ -149,7 +150,7 @@ class MyMap{
         int pop_back(){
 
             if(isEmpty()){
-                NotFound emap("pop_back", "Map is empty.", "First push anything.", time(0));
+                NotFound<I, S> emap("pop_back", "Map is empty.", "First push anything.", time(0));
                 throw emap;
             }
     
@@ -172,15 +173,15 @@ class MyMap{
 
         //--------------front--------------------
 
-        void push_front(N k, N v){
+        void push_front(I k, I v){
 
             if(isEmpty()){                   // create the first element
-                head = tail = new Node<N>(k, v);
+                head = tail = new Node<I>(k, v);
                 len++;
             }else if(find(k)){
                 address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
             }else{
-                Node<N>* node = new Node<N>(k, v);
+                Node<I>* node = new Node<I>(k, v);
                 head -> previous = node;
                 node -> next = head;
                 head = node;
@@ -191,7 +192,7 @@ class MyMap{
         int pop_front(){
 
             if(isEmpty()){
-                NotFound emap("pop_front", "Map is empty.", "First push anything.", time(0));
+                NotFound<I, S> emap("pop_front", "Map is empty.", "First push anything.", time(0));
                 throw emap;
             }
 
@@ -214,7 +215,7 @@ class MyMap{
 
         //-----------------insert----------------------
 
-        void insert(N k, N v, int index){
+        void insert(I k, I v, int index){
 
             if(find(k)){                   // check if keys repeated, change only the value
                 address_of_repeated_key -> value = v;
@@ -224,7 +225,7 @@ class MyMap{
             if(index < 0 ){
                 // IndexOutOfBounds<I, L, C, S> exp(index, len, "Index is small 0.", "Index must be great than 0.", time(0));
 
-                IndexOutOfBounds exp(index, len, "Index is small 0.", "Index must be great than 0.", time(0));
+                IndexOutOfBounds<I, S> exp(index, len, "Index is small 0.", "Index must be great than 0.", time(0));
                 throw exp;
             }
 
@@ -232,11 +233,11 @@ class MyMap{
                 // cout << "the lenght of list is " << len << ". Adding node will be after the last element!" << endl;
                 // push_back(k, v);
                 // return;
-                IndexOutOfBounds exp(index, len, "Index is great the length.", "Index must be small or equal the length.", time(0));
+                IndexOutOfBounds<I, S> exp(index, len, "Index is great the length.", "Index must be small or equal the length.", time(0));
                 throw exp;
             }
 
-            Node<N>* addedNode = new Node<N>(k, v);
+            Node<I>* addedNode = new Node<I>(k, v);
 
             if(index == 0){
                 push_front(k, v);
@@ -244,7 +245,7 @@ class MyMap{
                 push_back(k, v);
             }else{
 
-                Node<N>* node = head;               // get node with given index
+                Node<I>* node = head;               // get node with given index
                 for(int i = 0; i < index; i++){
                     node = node -> next;
                 }
@@ -257,9 +258,9 @@ class MyMap{
             }
         }
 
-        bool find(N k){
+        bool find(I k){
 
-            for(Node<N>* node = head; node != nullptr; node = node -> next){
+            for(Node<I>* node = head; node != nullptr; node = node -> next){
                 if(k == node -> key){
                     address_of_repeated_key = node;   // save the adrress of repeated key
 
@@ -277,7 +278,7 @@ class MyMap{
 
             cout << "\nPrint result!!!! \n\n";
             
-            for(Node<N>* h = head; h != nullptr; h = h -> next){
+            for(Node<I>* h = head; h != nullptr; h = h -> next){
                 cout << h -> key << ":  " << h -> value << endl;
                 
             } 
@@ -291,7 +292,7 @@ class MyMap{
         int* keys(){
             int* arr_of_keys;
             arr_of_keys = new int[len];
-            Node<N>* h = head;
+            Node<I>* h = head;
             for(int i=0; i<len; i++){
                 arr_of_keys[i] = h -> key;
                 h = h -> next;
@@ -303,7 +304,7 @@ class MyMap{
         int* values(){
             int* arr_of_values;
             arr_of_values = new int[len];
-            Node<N>* h = head;
+            Node<I>* h = head;
             for(int i=0; i<len; i++){
                 arr_of_values[i] = h -> value;
                 h = h -> next;
@@ -315,7 +316,7 @@ class MyMap{
 
         MyMap& operator=(const MyMap& map){
 
-            Node<N>* h = map.head;
+            Node<I>* h = map.head;
             while (h!=nullptr){
                 push_back(h -> key, h -> value);
                 h = h -> next;
@@ -329,8 +330,8 @@ class MyMap{
                 return false;
             }
 
-            Node<N>* temp1 = head;
-            Node<N>* temp2 = map.head;
+            Node<I>* temp1 = head;
+            Node<I>* temp2 = map.head;
             for(int i = 0; i < len; i++){
         
                 if(temp1 -> key != temp2 -> key){
@@ -343,13 +344,13 @@ class MyMap{
             return true;
         }
 
-        int operator[](int k){
+        int operator[](I k){
             
             if(find(k)){
                 return address_of_repeated_key -> value;
             }
 
-            NotFound emap("get operator", "Key is not exist.", "First push this key.", time(0), k);
+            NotFound<I, S> emap("get operator", "Key is not exist.", "First push this key.", time(0), k);
             throw emap;
             
         }
@@ -357,7 +358,7 @@ class MyMap{
 
 int main(){
 
-    MyMap<int> map;
+    MyMap<int, string> map;
 
     try{
 
@@ -368,9 +369,9 @@ int main(){
         map.insert(2, 20, -5);
         map.insert(2, 20, 5);
 
-    }catch(NotFound emap){
+    }catch(NotFound<int, string> emap){
         emap.info();
-    }catch(IndexOutOfBounds iexp){
+    }catch(IndexOutOfBounds<int, string> iexp){
         iexp.info();   
     }catch(exception& ex){
         cout << ex.what();
