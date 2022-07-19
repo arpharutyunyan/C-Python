@@ -1,18 +1,20 @@
 #include <iostream>
 using namespace std;
 
+template <class V>
 class Node{
 
     public:
-        int value = 0;
+        V value;
         Node* previous = nullptr;
         Node* next = nullptr;
 
-        Node(int n){
+        Node(V n){
             value = n;
         }
 };
 
+template <class V>
 class Priority_queue{
 
     public:
@@ -31,7 +33,7 @@ class Priority_queue{
                 delete head;
             }
 
-            Node* h = copy_list.head;
+            Node<V>* h = copy_list.head;
             while (h!=nullptr){
                 push_back(h -> value);
                 h = h -> next;
@@ -62,8 +64,8 @@ class Priority_queue{
                 return true;
             }
 
-            Node* temp1 = head;
-            Node* temp2 = second.head;
+            Node<V>* temp1 = head;
+            Node<V>* temp2 = second.head;
             for(int i = 0; i < len; i++){
 
                 if(temp1 -> value != temp2->value){
@@ -88,7 +90,7 @@ class Priority_queue{
                 head = tail = nullptr;
             }
             
-            Node* h = copy_list.head;
+            Node<V>* h = copy_list.head;
             while (h!=nullptr){
                 push_back(h -> value);
                 h = h -> next;
@@ -98,11 +100,11 @@ class Priority_queue{
 
         int operator[](int n){
             if(n > len - 1){
-                cout << " WARNING!!!   segmentation fault :( \n"; 
+                // cout << " WARNING!!!   segmentation fault :( \n"; 
                 return -1;
             }
 
-            Node* node = getNode(n);
+            Node<V>* node = getNode(n);
 
             return node -> value;
 
@@ -110,8 +112,8 @@ class Priority_queue{
 
     private:
 
-        Node* head = nullptr;
-        Node* tail = nullptr;
+        Node<V>* head = nullptr;
+        Node<V>* tail = nullptr;
         int len = 0;
 
         bool isEmpty(){
@@ -119,10 +121,10 @@ class Priority_queue{
         }
 
         //-----------back---------------
-        void push_back(int n){
-            Node* temp = new Node(n);
+        void push_back(V n){
+            Node<V>* temp = new Node<V>(n);
             if(isEmpty()){
-                cout << "push back is empty \n\n"; 
+                // cout << "push back is empty \n\n"; 
                 head = tail = temp;
             }else{
                 tail -> next = temp;
@@ -132,13 +134,14 @@ class Priority_queue{
             len++;
         }
 
-        int pop_back(){
+        Node<V> pop_back(){
             if(isEmpty()){
-                cout << "pop back is empty \n"; 
+                // cout << "pop back is empty \n"; 
                 return -1;
             }
     
-            int res = tail -> value;
+            // int res = tail -> value;
+            Node<V> res = *tail;
             len--;
             if(tail != head){  
                 
@@ -156,10 +159,10 @@ class Priority_queue{
         }
 
         //-----------------front------------------------
-        void push_front(int n){
-            Node* temp = new Node(n);
+        void push_front(V n){
+            Node<V>* temp = new Node<V>(n);
             if(isEmpty()){
-                cout << "push front is empty \n"; 
+                // cout << "push front is empty \n"; 
                 head = tail = temp;
             }else{
                 head -> previous = temp;
@@ -170,13 +173,14 @@ class Priority_queue{
             len++;
         }
 
-        int pop_front(){
+        Node<V> pop_front(){
             if(isEmpty()){
-                cout << "pop front is empty \n"; 
+                // cout << "pop front is empty \n"; 
                 return -1;
             }
 
-            int res = head -> value;
+            // int res = head -> value;
+            Node<V> res = *head;
             len--;
 
             if(head != tail){  
@@ -194,10 +198,10 @@ class Priority_queue{
         }
 
         //--------------- insert --------------------
-        void insert(int n, int index){
+        void insert(V n, int index){
 
-            Node* node = getNode(index);
-            Node* addedNode = new Node(n);
+            Node<V>* node = getNode(index);
+            Node<V>* addedNode = new Node<V>(n);
             if(index == 0){
                 push_front(n);
             }else if(index == len + 1){
@@ -211,8 +215,8 @@ class Priority_queue{
             }
         }
 
-        bool find(int x){
-            Node* node = head;
+        bool find(V x){
+            Node<V>* node = head;
 
             while (node != nullptr){
             if(x == node -> value){
@@ -226,7 +230,7 @@ class Priority_queue{
 
     public:
 
-        void add(int n, bool reverse = false){
+        void add(V n, bool reverse = false){
 
             if(isEmpty()){
                 push_back(n);
@@ -244,8 +248,8 @@ class Priority_queue{
 
                 }else{
 
-                    Node* node = head;
-                    Node* addedNode = new Node(n);
+                    Node<V>* node = head;
+                    Node<V>* addedNode = new Node<V>(n);
 
                     while (n > node->value){
                         node = node->next;
@@ -271,8 +275,8 @@ class Priority_queue{
 
                 }else{
 
-                    Node* node = head;
-                    Node* addedNode = new Node(n);
+                    Node<V>* node = head;
+                    Node<V>* addedNode = new Node<V>(n);
 
                     while (n < node->value){
                         node = node->next;
@@ -297,7 +301,7 @@ class Priority_queue{
                 return;
             }
             
-            for(Node* h = head; h != nullptr; h = h -> next){
+            for(auto h = head; h != nullptr; h = h -> next){
                 cout << "value = " << h -> value << "\t";
                 
             } 
@@ -308,7 +312,7 @@ class Priority_queue{
         void print_reverse(){
             cout << "\nPrint reverse!!!! \n\n";
             
-            for(Node* t = tail; t != nullptr; t = t -> previous){
+            for(auto t = tail; t != nullptr; t = t -> previous){
                 cout << "value = " << t -> value << "\t";
             }   
 
@@ -322,14 +326,14 @@ class Priority_queue{
             return len;
         }
 
-        Node* getNode(int n){
+        Node<V>* getNode(V n){
 
             if(isEmpty()){
                 cout << "nothing to return \n";
                 return nullptr;
             }
 
-            Node* node = head;
+            Node<V>* node = head;
             for(int i = 0; i < n; i++){
                 node = node -> next;
             }
@@ -342,7 +346,7 @@ class Priority_queue{
 
 int main(){
 
-    Priority_queue pq;
+    Priority_queue<int> pq;
 
     pq.add(10);
     pq.add(0);
@@ -354,22 +358,22 @@ int main(){
     cout << "pq \n"; 
     pq.print();
 
-    Priority_queue pq1;
+    Priority_queue<char> pq1;
 
-    pq1.add(10, true);
-    pq1.add(0, true);
-    pq1.add(50, true);
-    pq1.add(5, true);
-    pq1.add(25, true);
-    pq1.add(25, true);
+    pq1.add('c');
+    pq1.add('d');
+    pq1.add('u');
+    pq1.add('a');
+    pq1.add('k');
+    pq1.add('x');
     cout << "pq1 \n"; 
     pq1.print();
 
-    if(pq == pq1){
-        cout << "\nTrue \n";
-    }else{
-        cout << "\nFalse \n";
-    }
+    // if(pq == pq1){
+    //     cout << "\nTrue \n";
+    // }else{
+    //     cout << "\nFalse \n";
+    // }
 
     return 0;
 

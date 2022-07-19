@@ -1,30 +1,32 @@
 #include <iostream>
 using namespace std;
 
+template <class Key, class Value>
 class Node{
 
     public:
 
-        int value = 0;
-        int key = 0;
+        Key key;
+        Value value;
         Node* left = nullptr;
         Node* right = nullptr;
 
-        Node(int k, int v){
+        Node(Key k, Value v){
             key = k;
             value = v;
         }
 };
 
 
+template <class Key, class Value>
 class Bst_map{
 
     private:
-        Node* root = nullptr;
+        Node<Key, Value>* root = nullptr;
 
     public:
 
-        Node* parent = nullptr;
+        Node<Key, Value>* parent = nullptr;
 
         Bst_map(){};
 
@@ -38,7 +40,7 @@ class Bst_map{
            
         }
 
-        void copy_constructor(Node* temp){
+        void copy_constructor(Node<Key, Value>* temp){
 
             if(temp!=nullptr){
 
@@ -57,7 +59,7 @@ class Bst_map{
                     
         }
 
-        void destructor(Node* temp){
+        void destructor(Node<Key, Value>* temp){
             if(temp!=nullptr){
                
                 
@@ -74,33 +76,33 @@ class Bst_map{
             return root == nullptr;
         }
 
-        void add(int k, int v){
+        void add(Key k, Value v){
             add(k, v, root);
         }
 
-        void add(int k, int v, Node* r){
+        void add(Key k, Value v, Node<Key, Value>* r){
 
             if(isEmpty()){
-                root = new Node(k, v);
+                root = new Node<Key, Value>(k, v);
             }else if(k == r->key){
                 r->value = v;
                 return;
             }else if(k > r->key){
                 if(r->right == nullptr){
-                    r->right = new Node(k, v);
+                    r->right = new Node<Key, Value>(k, v);
                     return;
                 }
                 add(k, v, r->right);
             }else if(k < r->key){
                 if(r->left == nullptr){
-                    r->left = new Node(k, v);
+                    r->left = new Node<Key, Value>(k, v);
                     return;
                 }
                 add(k, v, r->left);
             }
         }
 
-        bool find(int k, bool b){
+        bool find(Key k, bool b){
             if(find(k)!=nullptr){
                 return true;
             }else{
@@ -108,12 +110,12 @@ class Bst_map{
             }
         }
 
-        Node* find(int k){
+        Node<Key, Value>* find(Key k){
 
             return find(k, root);
         }
 
-        Node* find(int k, Node* temp){
+        Node<Key, Value>* find(Key k, Node<Key, Value>* temp){
             
             if(temp!=nullptr){
                 if(temp -> key == k){
@@ -133,9 +135,9 @@ class Bst_map{
             }
         }
 
-        void del_leaf(Node* deleted, Node* find=nullptr){
+        void del_leaf(Node<Key, Value>* deleted, Node<Key, Value>* find=nullptr){
 
-            int k = deleted->key;
+            Key k = deleted->key;
 
             if(deleted->key < parent->key){
                     parent->left = nullptr;
@@ -150,16 +152,16 @@ class Bst_map{
             delete deleted;
         }   
 
-        void del(int x){
+        void del(Key x){
 
-            Node* finded = find(x);
+            Node<Key, Value>* finded = find(x);
 
             if(finded==nullptr){
                 return;
             }
 
             if(finded->left!=nullptr){
-                Node* temp = finded->left;
+                Node<Key, Value>* temp = finded->left;
                 parent = finded;
                 while(temp->right!=nullptr){
                     
@@ -169,7 +171,7 @@ class Bst_map{
                 del_leaf(temp, finded); 
 
             }else if(finded->right!=nullptr){
-                Node* temp = finded->right;
+                Node<Key, Value>* temp = finded->right;
                 parent = finded;
                 while(temp->left!=nullptr){
                     temp = temp->left;
@@ -190,7 +192,7 @@ class Bst_map{
             print(root);
         }
 
-        void print(Node* temp){
+        void print(Node<Key, Value>* temp){
 
             if(isEmpty()){
                 cout << "Is empty! Nothing to print\n";
@@ -231,7 +233,7 @@ class Bst_map{
             return !equals(root, second.root);
         }
 
-        bool equals(Node* self, Node* second){
+        bool equals(Node<Key, Value>* self, Node<Key, Value>* second){
 
 
             if (self!=nullptr and second!=nullptr)      // when we have a Node for checking
@@ -259,22 +261,30 @@ class Bst_map{
 
 int main(){
 
-    Bst_map map;
-    map.add(50, 10);
-    map.add(60, 20);
-    map.add(40, 30);
+    Bst_map<int, string> map;
+    map.add(50, "aa");
+    map.add(60, "bb");
+    map.add(97, "cc");
+    map.add(97, "cc");
+    map.add(60, "cc");
+    map.add(25, "cc");
+    map.add(200, "cc");
+    map.add(700, "cc");
+    map.del(20);
+    map.del(60);
+    map.del(50);
     map.print();
 
-    Bst_map map2 ;
-    map2.add(50, 10);
-    map2.add(60, 20);
-    map2.add(60, 30);
-    if(map == map2){
-        cout << "\nTrue \n";
-    }else{
-        cout << "\nFalse \n";
-    }
+    // Bst_map<int, int> map2 ;
+    // map2.add(50, 10);
+    // map2.add(60, 20);
+    // map2.add(60, 30);
+    // if(map == map2){
+    //     cout << "\nTrue \n";
+    // }else{
+    //     cout << "\nFalse \n";
+    // }
 
-    map2.print();
+    // map2.print();
     return 0;
 }
