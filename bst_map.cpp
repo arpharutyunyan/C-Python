@@ -1,6 +1,77 @@
 #include <iostream>
 using namespace std;
 
+class Specialist{
+    public:
+        string name;
+        string surname;
+        int age;
+        int iq;
+
+        Specialist(){};
+
+        Specialist(string name, string surname, int age, int iq){
+            this->name = name;
+            this->surname = surname;
+            this->age = age;
+            this->iq = iq;
+        }
+
+        // void print(){
+        //     cout << "------------------------- \n";
+        //     cout << "name: " << name << endl;
+        //     cout << "surname: " << surname << endl;
+        //     cout << "age: " << age << endl;
+        //     cout << "iq: " << iq << endl;
+        // }
+
+        friend ostream& operator<<(ostream& print, const Specialist& spec){
+            cout << "---------- operator<< ------------- \n";
+            print << "name: " << spec.name << endl;
+            print << "surname: " << spec.surname << endl;
+            print << "age: " << spec.age << endl;
+            print << "iq: " << spec.iq << endl;
+            return print;
+        }
+};
+
+template <class T>
+class Comparator{
+    
+    public:
+        virtual int compare(T a, T b){
+            return -1000;
+        };
+};
+
+class SortByName : public Comparator<Specialist> {
+   
+    public:
+        int compare(Specialist a, Specialist b){
+            if(a.name > b.name){
+                return 1;
+            }else if(a.name == b.name){
+                return 0;
+            }else{
+                return -1;
+            }
+        }
+};
+
+class SortByAge : public Comparator<Specialist> {
+   
+    public:
+        int compare(Specialist a, Specialist b){
+            if(a.age > b.age){
+                return 1;
+            }else if(a.age == b.age){
+                return 0;
+            }else{
+                return -1;
+            }
+        }
+};
+
 template <class Key, class Value>
 class Node{
 
@@ -27,8 +98,11 @@ class Bst_map{
     public:
 
         Node<Key, Value>* parent = nullptr;
+        Comparator<Key>* comparator;
 
-        Bst_map(){};
+        Bst_map(Comparator<Key>* c){
+            this->comparator = c;
+        };
 
         Bst_map(const Bst_map& copy){
 
@@ -84,16 +158,16 @@ class Bst_map{
 
             if(isEmpty()){
                 root = new Node<Key, Value>(k, v);
-            }else if(k == r->key){
+            }else if(comparator->compare(k, r->key) == 0){
                 r->value = v;
                 return;
-            }else if(k > r->key){
+            }else if(comparator->compare(k, r->key) == 1){
                 if(r->right == nullptr){
                     r->right = new Node<Key, Value>(k, v);
                     return;
                 }
                 add(k, v, r->right);
-            }else if(k < r->key){
+            }else if(comparator->compare(k, r->key) == -1){
                 if(r->left == nullptr){
                     r->left = new Node<Key, Value>(k, v);
                     return;
@@ -139,7 +213,8 @@ class Bst_map{
 
             Key k = deleted->key;
 
-            if(deleted->key < parent->key){
+            if(comparator->compare(deleted->key, parent->key) == -1){
+                //deleted->key < parent->key){
                     parent->left = nullptr;
             }else{
                 parent->right = nullptr;
@@ -238,7 +313,8 @@ class Bst_map{
 
             if (self!=nullptr and second!=nullptr)      // when we have a Node for checking
             {
-                if((self->key == second->key) and (self->value == second->value)){     // when the numbers are equal, continue to check
+                if((comparator->compare(self->key, second->key) == 0) and (comparator->compare(self->value, second->value))){
+                    //(self->key == second->key) and (self->value == second->value)){     // when the numbers are equal, continue to check
 
                     bool left = equals(self->left, second->left);
     
@@ -261,19 +337,23 @@ class Bst_map{
 
 int main(){
 
-    Bst_map<int, string> map;
-    map.add(50, "aa");
-    map.add(60, "bb");
-    map.add(97, "cc");
-    map.add(97, "cc");
-    map.add(60, "cc");
-    map.add(25, "cc");
-    map.add(200, "cc");
-    map.add(700, "cc");
-    map.del(20);
-    map.del(60);
-    map.del(50);
+    SortByName  sn;
+    SortByAge sa;
+
+    Bst_map<Specialist, int> map(&sn);
+
+    map.add(Specialist("A", "AA", 25, 100), 25);
+    map.add(Specialist("C", "CC", 70, 50), 70);
+    map.add(Specialist("F", "FF", 21, 97), 21);
+    map.add(Specialist("D", "DD", 32, 65), 32);
+    map.add(Specialist("Z", "ZZ", 12, 100), 12);
+    map.add(Specialist("B", "BB", 25, 100), 25);
+    map.add(Specialist("B", "BB", 25, 100), 25);
+    map.add(Specialist("B", "BB", 25, 100), 25);
+
     map.print();
+
+
 
     // Bst_map<int, int> map2 ;
     // map2.add(50, 10);
