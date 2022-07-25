@@ -17,13 +17,13 @@ class Specialist{
             this->iq = iq;
         }
 
-        // void print(){
-        //     cout << "------------------------- \n";
-        //     cout << "name: " << name << endl;
-        //     cout << "surname: " << surname << endl;
-        //     cout << "age: " << age << endl;
-        //     cout << "iq: " << iq << endl;
-        // }
+        void print(){
+            cout << "------------------------- \n";
+            cout << "name: " << name << endl;
+            cout << "surname: " << surname << endl;
+            cout << "age: " << age << endl;
+            cout << "iq: " << iq << endl;
+        }
 
         friend ostream& operator<<(ostream& print, const Specialist& spec){
             cout << "---------- operator<< ------------- \n";
@@ -192,11 +192,11 @@ class Bst_map{
         Node<Key, Value>* find(Key k, Node<Key, Value>* temp){
             
             if(temp!=nullptr){
-                if(temp -> key == k){
+                if(comparator->compare(temp -> key, k) == 0){
                     return temp;
                 }
 
-                if(k > temp->key){ 
+                if(comparator->compare(k, temp->key) == 1){ 
                     parent = temp; 
                     return find(k, temp->right);
 
@@ -347,24 +347,19 @@ int main(){
     map.add(Specialist("F", "FF", 21, 97), 21);
     map.add(Specialist("D", "DD", 32, 65), 32);
     map.add(Specialist("Z", "ZZ", 12, 100), 12);
-    map.add(Specialist("B", "BB", 25, 100), 25);
-    map.add(Specialist("B", "BB", 25, 100), 25);
-    map.add(Specialist("B", "BB", 25, 100), 25);
+    map.add(Specialist("BB", "BB", 25, 100), 25);
+    map.add(Specialist("B", "BBB", 50, 100), 50);
+    map.add(Specialist("B", "BBBB", 150, 100), 150);
 
     map.print();
 
+    cout << "-----------find--------------- \n\n";
+    cout << map.find(Specialist("Z", "ZZ", 12, 100))->value << endl;
+    cout << map.find(Specialist("D", "DD", 32, 65))->value << endl;
+    cout << map.find(Specialist("BB", "BB", 25, 100))->value << endl;
+    cout << map.find(Specialist("B", "BBBB", 150, 100))->value << endl;
 
+    cout << "------- end find----------- \n\n\n";
 
-    // Bst_map<int, int> map2 ;
-    // map2.add(50, 10);
-    // map2.add(60, 20);
-    // map2.add(60, 30);
-    // if(map == map2){
-    //     cout << "\nTrue \n";
-    // }else{
-    //     cout << "\nFalse \n";
-    // }
-
-    // map2.print();
     return 0;
 }

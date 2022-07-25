@@ -1,13 +1,111 @@
 #include <iostream>
+
 using namespace std;
 
+class Rectangle{
+
+    public:
+        float width;
+        float length;
+
+        Rectangle(){};
+
+        Rectangle(float length, float width){
+            this->length = length;
+            this->width = width;
+        }
+
+        float area(){
+            return this->length * this->width;
+        }
+
+        float perimeter(){
+            return 2 * (this->length + this->width);
+        }
+
+        friend ostream& operator<<(ostream& print, Rectangle& rec){
+            cout << "------- print in rectangle class -------- \n";
+            cout << "width = " << rec.width << endl;
+            cout << "length = " << rec.length << endl;
+            cout << "are = " << rec.area() << endl;
+            cout << "perimeter = " << rec.perimeter() << endl;
+
+            return print;
+        }
+
+};
+
+template <class C>
+class Comparator{
+
+    public:
+        virtual int compare(C a, C b){
+            return -1000;
+        }
+};
+
+class SortByWidth : public Comparator<Rectangle>{
+    public:
+
+        int compare(Rectangle a, Rectangle b){
+            if(a.width > b.width){
+                return 1;
+            }else if(a.width == b.width){
+                return 0;
+            }else{
+                return -1;
+            }
+        }
+};
+
+class SortByLength : public Comparator<Rectangle>{
+    public:
+
+        int compare(Rectangle a, Rectangle b){
+            if(a.length > b.length){
+                return 1;
+            }else if(a.length < b.length){
+                return -1;
+            }else{
+                return 0;
+            }
+        }
+};
+
+class SortByArea : public Comparator<Rectangle>{
+    public:
+
+        int compare(Rectangle a, Rectangle b){
+            if(a.area() > b.area()){
+                return 1;
+            }else if(a.area() < b.area()){
+                return -1;
+            }else{
+                return 0;
+            }
+        }
+};
+
+class SortByPerimeter : public Comparator<Rectangle>{
+    public:
+
+        int compare(Rectangle a, Rectangle b){
+            if(a.perimeter() > b.perimeter()){
+                return 1;
+            }else if(a.perimeter() < b.perimeter()){
+                return -1;
+            }else{
+                return 0;
+            }
+        }
+};
 
 template <class T>
 class Node{
 
     public:
 
-    int number = 0;
+    T number;
     Node<T>* left = nullptr;
     Node<T>* right = nullptr;
 
@@ -25,8 +123,11 @@ class Bst{
     public:
 
         Node<T>* parent = nullptr;
+        Comparator<T>* comparator;
 
-        Bst<T>(){};
+        Bst<T>(Comparator<T>* c){
+            this->comparator = c;
+        };
 
         Bst<T>(const Bst& copy){
 
@@ -88,13 +189,13 @@ class Bst{
         void add(T x, Node<T>* r){
             if(isEmpty()){
                 root = new Node<T>(x);
-            }else if(x > r->number){
+            }else if(comparator->compare(x, r->number) == 1){
                 if(r->right == nullptr){
                     r->right = new Node<T>(x);
                     return;
                 }
                 add(x, r->right);
-            }else if(x < r->number){
+            }else if(comparator->compare(x, r->number) == -1){
                 if(r->left == nullptr){
                     r->left = new Node<T>(x);
                     return;
@@ -120,11 +221,11 @@ class Bst{
         Node<T>* find(T n, Node<T>* temp){
             
             if(temp!=nullptr){
-                if(temp -> number == n){
+                if(comparator->compare(temp -> number, n) == 0){
                     return temp;
                 }
 
-                if(n > temp->number){ 
+                if(comparator->compare(n, temp->number) == 1){ 
                     parent = temp;       
                     return find(n, temp->right);
 
@@ -139,9 +240,9 @@ class Bst{
 
         void del_leaf(Node<T>* deleted, Node<T>* find=nullptr){
 
-            int num = deleted->number;
+            T num = deleted->number;
 
-            if(deleted->number < parent->number){
+            if(comparator->compare(deleted->number, parent->number) == -1){
                     parent->left = nullptr;
             }else{
                 parent->right = nullptr;
@@ -190,8 +291,6 @@ class Bst{
             }
         }
 
-        // ____________  print  ________________
-
         void print(){        
             print(root);
         }
@@ -205,160 +304,49 @@ class Bst{
 
             if(temp != nullptr){
 
-                cout << temp -> number << "\t";  // print the sequence of function calls
                 print(temp->left);
+                cout << temp -> number << "\t";  // print the sequence of function calls
                 print(temp->right);
             }
         }
-
-        void print_AZ(Node<T>* temp = nullptr){
-
-            if(isEmpty()){
-                cout << "Is empty! Nothing to print\n";
-                return;
-            }
-
-            if(temp == nullptr){            // first initialize for root
-                temp = root;
-            }
-
-            if(temp->left == nullptr and temp->right == nullptr){   // stop the recursion function
-                cout << temp -> number << "\t";  
-            }else{
-                print_AZ(temp -> left);
-                cout << temp -> number << "\t";
-                print_AZ(temp -> right);
-            }
-        }
-
-        void print_ZA(Node<T>* temp = nullptr){
-
-            if(isEmpty()){
-                cout << "Is empty! Nothing to print\n";
-                return;
-            }
-
-            if(temp == nullptr){            // first initialize for root
-                temp = root;
-            }
-
-            if(temp->left == nullptr and temp->right == nullptr){   // stop the recursion function
-                cout << temp -> number << "\t";  
-            }else{
-                print_ZA(temp->right);
-                cout << temp -> number << "\t";  
-                print_ZA(temp->left); 
-
-            }           
-        }
-
-
-        //___________________ operators ________________
-
-        Bst& operator=(const Bst& copy){
-
-            if(!isEmpty()){
-                destructor(root);
-            }
-
-            copy_constructor(copy.root);
-            return *this;   
-        }
-
-        bool operator==(Bst& second){
-            if(&second == this){
-                return true;
-            }
-
-            return equals(root, second.root);
-        }
-
-        bool operator!=(Bst& second){
-            if(this == &second){
-                return false;
-            } 
-
-            return !equals(root, second.root);
-
-            // return !(*this == second);  // call operator==
-        }
-
-        bool equals(Node<T>* self, Node<T>* second){
-
-
-            if (self!=nullptr and second!=nullptr)      // when we have a Node for checking
-            {
-                if(self->number == second->number){     // when the numbers are equal, continue to check
-
-                    bool left = equals(self->left, second->left);
-    
-                    bool right = equals(self->right, second->right);
-
-                    return left and right; 
-
-                }else{
-                    return false;    // if the numbers not equal return false
-                } 
-
-            }else if (self==nullptr and second==nullptr){   // when we don't have Node for checking and not breaking the function with false
-                return true;                                                                
-            }else{
-                return false;     // when the self = nullptr or second = nullptr
-            }
-           
-        }
-          
 };
 
-// int main(){
+int main(){
 
-//     Bst<int> bst;
+    SortByWidth width;
+    SortByLength length;
+    SortByArea area;
+    SortByPerimeter perimeter;
 
-//     bst.add(50);
-//     bst.add(100);
-//     bst.add(30);
-//     bst.add(40);
-//     bst.add(10);
-//     bst.add(90);
-//     bst.add(200);
-//     bst.add(9);
-//     bst.add(15);
-//     bst.add(35);
-//     bst.add(45);
-//     bst.add(70);
-//     bst.add(95);
-//     bst.add(150);
-//     bst.add(250);
-//     bst.add(145);
-//     bst.add(160);
-//     bst.add(11);
-//     bst.add(16);
-   
+    Bst<Rectangle> bst(&area);
+    bst.add(Rectangle(10, 100));
+    bst.add(Rectangle(30, 500));
+    bst.add(Rectangle(20, 200));
+    bst.add(Rectangle(50, 550));
+    bst.add(Rectangle(35, 350));
+    bst.add(Rectangle(10, 80));
+    bst.add(Rectangle(6, 50));
+    bst.add(Rectangle(150, 230));
+    bst.add(Rectangle(75, 400));
+    bst.add(Rectangle(205, 45));
 
-//     bst.print();
+    cout << "-----------find--------------- \n\n";
+    cout << bst.find(Rectangle(10, 80))->number;
 
-//     Bst<int> bst2 = std::move(bst);
+    cout << "------- end find----------- \n\n\n";
+    bst.print();
 
-//     // cout << "\n";
-//     // bst.del(15);
-//     cout <<"bst2 \n";
-//     bst2.print();
-
-//     cout <<"bst \n";
-//     bst.print();
+    bst.del(Rectangle(6, 50));
+    
+    cout << "---------del----------\n\n";
+    bst.print();
 
 
-//     return 0;
-// }
 
- /*
-                       50
-                
-            30                    100
 
-     10          40           90           200
 
- 9     15      35   45    70    95    150     250
-    11     16                      145     160
 
-*/                    
+
+
+    return 0;
+}
