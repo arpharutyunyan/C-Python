@@ -277,17 +277,17 @@ class MyMap{
             return len;
         }
 
-        void print(){
+        // void print(){
 
-            cout << "\nPrint result!!!! \n\n";
+        //     cout << "\nPrint result!!!! \n\n";
             
-            for(auto h = head; h != nullptr; h = h -> next){
-                cout << h -> key << ":  " << h -> value << endl;
+        //     for(auto h = head; h != nullptr; h = h -> next){
+        //         cout << h -> key << ":  " << h -> value << endl;
                 
-            } 
+        //     } 
 
-            cout << endl << endl;   
-        }
+        //     cout << endl << endl;   
+        // }
 
         //-------------operators-------------
 
@@ -331,6 +331,18 @@ class MyMap{
             throw emap;
             
         }
+
+        friend ostream& operator<<(ostream& print, const MyMap& map){
+            cout << "\n operator << in map class \n\n";
+            
+            for(auto h = map.head; h != nullptr; h = h -> next){
+                cout << h -> key << ":  " << h -> value << endl;
+                
+            } 
+
+            cout << endl << endl; 
+            return print;  
+        }
 };
 
 int main(){
@@ -349,16 +361,16 @@ int main(){
         // cout << res_front.key << ": " << res_front.value << "\t";
         // cout << map.pop_back() << "\t";
         // cout << map.pop_back() << "\t";
-        map.find(1);
-        map.print();
+        // map.find(1);
+        // map.print();
+        cout << map;
 
-        cout << map[2].key << ": " << map[2].value;
-        // map.pop_back();
-        // map.pop_front();
-        map.insert(5, 5, 0);
-        map.print();
-        // map.insert(2, 20, -5);
-        // map.insert(2, 20, 5);
+        // cout << map[2].key << ": " << map[2].value;
+
+        // map.insert(5, 5, 0);
+
+        // cout << map;
+
 
     }catch(NotFound emap){
         emap.info();
