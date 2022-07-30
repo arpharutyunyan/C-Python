@@ -353,13 +353,13 @@ int main(){
 
     map.print();
 
-    cout << "-----------find--------------- \n\n";
-    cout << map.find(Specialist("Z", "ZZ", 12, 100))->value << endl;
-    cout << map.find(Specialist("D", "DD", 32, 65))->value << endl;
-    cout << map.find(Specialist("BB", "BB", 25, 100))->value << endl;
-    cout << map.find(Specialist("B", "BBBB", 150, 100))->value << endl;
+    // cout << "-----------find--------------- \n\n";
+    // cout << map.find(Specialist("Z", "ZZ", 12, 100))->value << endl;
+    // cout << map.find(Specialist("D", "DD", 32, 65))->value << endl;
+    // cout << map.find(Specialist("BB", "BB", 25, 100))->value << endl;
+    // cout << map.find(Specialist("B", "BBBB", 150, 100))->value << endl;
 
-    cout << "------- end find----------- \n\n\n";
+    // cout << "------- end find----------- \n\n\n";
 
     return 0;
 }
