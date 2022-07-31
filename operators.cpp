@@ -4,11 +4,11 @@ class Income{
 
     public:
 
-        double fromShop;
-        double fromTenders;
-        double fromApps;
-        double fromEducation;
-        double fromConsultation;
+        double fromShop = 0.0;
+        double fromTenders = 0.0;
+        double fromApps = 0.0;
+        double fromEducation = 0.0;
+        double fromConsultation = 0.0;
 
         Income(){
             std::cout << "Non argument constructor \n";
@@ -69,22 +69,24 @@ class Income{
             return true;
         }
 
+        double sum(Income obj){
+            
+            return obj.fromShop + obj.fromTenders + obj.fromApps + obj.fromEducation + obj.fromConsultation;
+
+        }
+
         bool operator>(const Income& other){
             std::cout << "------------- operator> ------------------- \n";
 
-            bool first = this->fromShop > other.fromShop && this->fromTenders > other.fromTenders;
-            bool second = this->fromApps > other.fromApps && this->fromEducation > other.fromEducation;
-            bool third = this->fromConsultation > other.fromConsultation;
-            return first && second && third;
+            return sum(*this) > sum(other);
         }
+
+        
 
         bool operator<(const Income& other){
             std::cout << "------------- operator< ------------------- \n";
 
-            bool first = this->fromShop < other.fromShop && this->fromTenders < other.fromTenders;
-            bool second = this->fromApps < other.fromApps && this->fromEducation < other.fromEducation;
-            bool third = this->fromConsultation < other.fromConsultation;
-            return first && second && third;
+            return sum(*this) < sum(other);
         }
 
         bool operator>=(const Income& other){
@@ -257,6 +259,38 @@ class Income{
             return temp;
         }
 
+        operator bool(){
+            std::cout << "------------- operator bool ------------------- \n";
+
+            bool first = this->fromShop == 0 && this->fromTenders == 0;
+            bool second = this->fromApps == 0 && this->fromEducation == 0;
+            bool third = this->fromConsultation == 0;
+
+            if(first && second && third){  // if all 0 it will be false
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        operator float(){
+            std::cout << "------------- operator float ------------------- \n";
+
+            return (float)(sum(*this));
+        }
+
+        operator int(){
+            std::cout << "------------- operator int ------------------- \n";
+
+            return (int)(sum(*this));
+        }
+
+        operator double(){
+            std::cout << "------------- operator double ------------------- \n";
+
+            return (double)(sum(*this));
+        }
+
         void print(){
 
             std::cout << "fromShop = " << fromShop << std::endl;
@@ -266,114 +300,3 @@ class Income{
             std::cout << "fromConsultation = " << fromConsultation << std::endl;
         }
 };
-
-
-
-
-
-int main(){
-
-    Income i1(100, 100, 100, 100, 100);
-    Income i2 = i1;
-    i2 = i1;
-    
-    Income i3(400, 500, 600, 700, 800);
-    Income i4(100, 100, 100, 100, 100);
-
-    // i1.print();
-    // i2.print();
-
-    if(i1 == i2){
-        std::cout << "true:  are equals \n";
-    }else{
-        std::cout << "false: are not eqals\n";
-    }
-
-    if(i1 == i3){
-        std::cout << "true:  are equals \n";
-    }else{
-        std::cout << "false: are not eqals\n";
-    }
-
-    if(i1 != i3){
-        std::cout << "true:  are not equals \n";
-    }else{
-        std::cout << "false: are eqals\n";
-    }
-
-    if(i1 < i3){
-        std::cout << "true:  small \n";
-    }else{
-        std::cout << "false: big\n";
-    }
-
-    if(i3 > i1){
-        std::cout << "true:  big \n";
-    }else{
-        std::cout << "false: small\n";
-    }
-
-    if(i4 <= i1){
-        std::cout << "true:  small or equals \n";
-    }else{
-        std::cout << "false: big\n";
-    }
-
-    if(i3 >= i1){
-        std::cout << "true:  big or equals \n";
-    }else{
-        std::cout << "false: small\n";
-    }
-
-    std::cout << " multyply  \n";
-    Income multyply = i1 * i2;
-    multyply.print();
-
-    std::cout << " plus  \n";
-    Income plus = i1 + i3;
-    plus.print();
-
-    std::cout << " minus  \n";
-    Income minus = i1 - i2;
-    minus.print();
-
-    std::cout << " divide  \n";
-    Income divide = i1 / i2;
-    divide.print();
-
-    std::cout << " -=  \n";
-    i3 -= i1;
-    i3.print();
-
-    std::cout << " +=  \n";
-    i3 += i1;
-    i3.print();
-
-    std::cout << " /=  \n";
-    i3 /= i1;
-    i3.print();
-
-    std::cout << " *=  \n";
-    i3 /= i1;
-    i3.print();
-
-    std::cout << " ++ prefix  \n";
-    i1++;
-    i1.print();
-
-    std::cout << " ++ postfix  \n";
-    ++i3;
-    i1.print();
-
-    std::cout << " -- postfix  \n";
-    --i3;
-    i3.print();
-
-    std::cout << " -- prefix  \n";
-    i3--;
-    i3.print();
-
-
-
-    return 0;
-}
