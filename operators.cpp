@@ -69,7 +69,7 @@ class Income{
             return true;
         }
 
-        double sum(Income obj){
+        double sum(const Income& obj){
             
             return obj.fromShop + obj.fromTenders + obj.fromApps + obj.fromEducation + obj.fromConsultation;
 
@@ -289,6 +289,29 @@ class Income{
             std::cout << "------------- operator double ------------------- \n";
 
             return (double)(sum(*this));
+        }
+
+        friend std::ostream& operator<<(std::ostream& print, const Income obj){
+            std::cout << "-------------- operator<< ----------------- \n";
+            print << "fromShop = " << obj.fromShop << std::endl;
+            print << "fromTenders = " << obj.fromTenders << std::endl;
+            print << "fromApps = " << obj.fromApps << std::endl;
+            print << "fromEducation = " << obj.fromEducation << std::endl;
+            print << "fromConsultation = " << obj.fromConsultation << std::endl;
+
+            return print;
+        }
+
+        friend std::istream& operator>>(std::istream& input, Income& obj){
+            std::cout << "-------------- operator>> ----------------- \n";
+
+            input >> obj.fromShop;
+            input >> obj.fromTenders;
+            input >> obj.fromApps;
+            input >> obj.fromEducation;
+            input >> obj.fromConsultation;
+
+            return input;
         }
 
         void print(){

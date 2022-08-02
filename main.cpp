@@ -1,4 +1,5 @@
 #include <iostream>
+using namespace std;
 #include "operators.cpp"
 
 
@@ -112,15 +113,20 @@ int main(){
         std::cout << "false \n";
     }
 
-    std::cout << "operator float \n";
-    float x = (float)i1;
-    std::cout << x << std::endl;
-    std::cout << typeid(x).name() << std::endl;
+    // std::cout << "operator float \n";
+    // float x = (float)i1;
+    // std::cout << x << std::endl;
+    // std::cout << typeid(x).name() << std::endl;
 
     std::cout << "operator int \n";
     int y = (int)i1;
     std::cout << y << std::endl;
     std::cout << typeid(y).name() << std::endl;
+
+    std::cout<<i1;
+
+    std::cin>>i1;
+    std::cout<<i1;
 
 
 
