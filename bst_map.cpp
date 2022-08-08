@@ -282,6 +282,21 @@ class Bst_map{
             }
         }
 
+        friend ostream& operator<<(ostream& print_op, const Bst_map& obj){
+            cout << "\n operator << in bst_map class \n\n";
+            
+            print(obj.root);   //?????????????????
+
+            return print_op;
+            
+        }
+
+        friend std::istream& operator>>(std::istream& input, Bst_map& obj){
+            std::cout << "-------------- operator>> ----------------- \n";
+
+            return input;
+        }
+
         Bst_map& operator=(const Bst_map& copy){
 
             if(!isEmpty()){
@@ -351,7 +366,9 @@ int main(){
     map.add(Specialist("B", "BBB", 50, 100), 50);
     map.add(Specialist("B", "BBBB", 150, 100), 150);
 
-    map.print();
+    cout<<map;
+
+    // map.print();
 
     // cout << "-----------find--------------- \n\n";
     // cout << map.find(Specialist("Z", "ZZ", 12, 100))->value << endl;

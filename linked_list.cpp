@@ -343,6 +343,25 @@ class LinkedList{
             return node -> value;
 
         }
+
+        friend std::istream& operator>>(std::istream& input, LinkedList& obj){
+            std::cout << "-------------- operator>> ----------------- \n";
+
+            return input;
+        }
+
+        friend ostream& operator<<(ostream& print, const LinkedList& obj){
+            cout << "\n operator << in bst_map class \n\n";
+            
+            for(Node* h = obj.head; h != nullptr; h = h -> next){
+                cout << "value = " << h -> value << "\t";
+                
+            } 
+
+            cout << endl << endl;   
+            return print;
+            
+        }
 };
 
 
@@ -358,15 +377,17 @@ int main(){
     ll.push_back(15);
     ll.push_back(0);
 
-    ll.print();
+    cout<<ll;
 
-    cout << "insert_sort \n\n";
-    ll.insert_sort();
-    ll.print();
+    // ll.print();
 
-    cout << "insert_sort_swap \n\n";
-    ll.insert_sort_swap();
-    ll.print();
+    // cout << "insert_sort \n\n";
+    // ll.insert_sort();
+    // ll.print();
+
+    // cout << "insert_sort_swap \n\n";
+    // ll.insert_sort_swap();
+    // ll.print();
 
     return 0;
 

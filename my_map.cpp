@@ -343,6 +343,12 @@ class MyMap{
             cout << endl << endl; 
             return print;  
         }
+
+        friend std::istream& operator>>(std::istream& input, MyMap& obj){
+            std::cout << "-------------- operator>> ----------------- \n";
+
+            return input;
+        }
 };
 
 int main(){
