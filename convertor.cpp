@@ -61,7 +61,7 @@ int main(int argc, char** argv){
             ++i;
         }else if(arr[i] >= 224 and arr[i] <= 239){
             cout << " 3 byte \n";
-            unsigned short first = (arr[i] & 0b00001111) << 12;
+            unsigned short first = (arr[i] & 0b00001111) << 12;   // ????
             
             unsigned short second = (arr[i+1] & 0b00111111) << 6;
 
@@ -74,7 +74,7 @@ int main(int argc, char** argv){
             cout << "arr[i+1] " << selem << endl;
             bitset<8>  thelem = arr[i+2];
             cout << "arr[i+2] " << thelem << endl;
-            bitset<16>  a = first;
+            bitset<16>  a = first;              //  ?????
             cout << "first " << a << endl;
             bitset<16> b = second;
             cout << "second = " << b << endl;
