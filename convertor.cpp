@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// utf8 - utf16
+
 int main(int argc, char** argv){
 
     FILE* fr = fopen(argv[1], "r");

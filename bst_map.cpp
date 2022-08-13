@@ -282,14 +282,14 @@ class Bst_map{
             }
         }
 
-        friend ostream& operator<<(ostream& print_op, const Bst_map& obj){
-            cout << "\n operator << in bst_map class \n\n";
+        // friend ostream& operator<<(ostream& print_op, const Bst_map& obj){
+        //     cout << "\n operator << in bst_map class \n\n";
             
-            print(obj.root);   //?????????????????
+        //     print(obj.root);   //?????????????????
 
-            return print_op;
+        //     return print_op;
             
-        }
+        // }
 
         friend std::istream& operator>>(std::istream& input, Bst_map& obj){
             std::cout << "-------------- operator>> ----------------- \n";
