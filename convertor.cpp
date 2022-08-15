@@ -5,12 +5,9 @@
 
 using namespace std;
 
-// utf8 - utf16
+void convert_utf8_utf16(const char* source, const char* destination){
 
-int main(int argc, char** argv){
-
-    FILE* fr = fopen(argv[1], "r");
-    // cout << argv[1] << endl;
+    FILE* fr = fopen(source, "r");
 
     fseek(fr, 0L, SEEK_END);
     size_t size = ftell(fr);
@@ -24,10 +21,10 @@ int main(int argc, char** argv){
 
     fclose(fr);
 
-    FILE* fw = fopen(argv[2], "w");
-    // cout << argv[2] << endl;
-    unsigned short endian = 0xFEFF;  //  little endian
-    // unsigned short endian = 0xFFFE ;  //  big endian
+    FILE* fw = fopen(destination, "w");
+
+    unsigned short endian = 0xFEFF;  //  big endian, but work like le, because fwrite 2 bytes with inverse one bytes 
+    // unsigned short endian = 0xFFFE ;  //  little endian
     fwrite(&endian, 2, 1, fw); 
 
     unsigned short result;
@@ -61,6 +58,7 @@ int main(int argc, char** argv){
             fwrite(&result, 2, 1, fw);
             
             ++i;
+
         }else if(arr[i] >= 224 and arr[i] <= 239){
             cout << " 3 byte \n";
             unsigned short first = (arr[i] & 0b00001111) << 12;   // ????
@@ -87,13 +85,10 @@ int main(int argc, char** argv){
 
             fwrite(&result, 2, 1, fw);
             
-            i = i + 2;
+            i += 2;
         }
     }
 
-
-
-
-
-    return 0;
+    fclose(fw);
 }
+

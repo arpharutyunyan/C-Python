@@ -5,12 +5,12 @@
 
 using namespace std;
 
-// utf16 - utf8
 
-int main(int argc, char** argv){
+void convert_utf16_utf8(string source, string destination){
 
-    FILE* fr = fopen(argv[1], "r");
-    // cout << argv[1] << endl;
+    char const* s = source.data();
+
+    FILE* fr = fopen(s, "r");
 
     fseek(fr, 0L, SEEK_END);
     size_t size = ftell(fr);
@@ -24,8 +24,9 @@ int main(int argc, char** argv){
 
     fclose(fr);
 
-    FILE* fw = fopen(argv[2], "w");
-    // cout << argv[2] << endl;
+    char const* d = destination.data();
+
+    FILE* fw = fopen(d, "w");
 
     unsigned short ch;
 
@@ -35,7 +36,7 @@ int main(int argc, char** argv){
 
         if(arr[i]!=0){    // connect 2 byte  
             bitset<8>  elem = arr[i];
-            cout << "arr[i] " << elem << endl;
+            cout << "arr[i] " << elem << endl;  
             bitset<8>  selem = arr[i-1];
             cout << "arr[i-1] " << selem << endl;
             ch = arr[i] << 8;
@@ -75,7 +76,5 @@ int main(int argc, char** argv){
 
     }
 
-
-
-    return 0;
+    fclose(fw);
 }
