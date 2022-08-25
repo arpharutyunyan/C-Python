@@ -113,8 +113,9 @@ class Priority_queue_map{
             if(isEmpty()){          
                 head = tail = new Node(k, v);         // create the first element
                 len++;
-            }else if(find(k)){
-                address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
+            // }else if(find(k)){
+            //     address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
+            // }
             }else{
                 Node* node = new Node(k, v);
                 tail -> next = node;
@@ -178,8 +179,9 @@ class Priority_queue_map{
             if(isEmpty()){                   // create the first element
                 head = tail = new Node(k, v);
                 len++;
-            }else if(find(k)){
-                address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
+            // }else if(find(k)){
+            //     address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
+            // }
             }else{
                 Node* node = new Node(k, v);
                 head -> previous = node;
@@ -262,7 +264,7 @@ class Priority_queue_map{
 
     public:
 
-        void add(int k, int v){
+        void add_with_key(int k, int v){
 
             if(isEmpty()){
                 push_back(k, v);
@@ -299,6 +301,47 @@ class Priority_queue_map{
                     len++;
                     return;
                 }
+               
+            }
+        }
+
+        void add_with_value(int k, int v){
+
+            if(isEmpty()){
+                push_back(k, v);
+                return;
+            }
+
+            if(v <= head->value){
+
+                push_front(k, v);
+
+            }else if(v >= tail->value){
+
+                push_back(k, v);
+
+            }else{
+
+                // if(find(k)){
+                //     address_of_repeated_key->value = v;
+                //     return;
+                // }else{
+
+                    Node* node = head;
+                    Node* addedNode = new Node(k, v);
+
+                    while (v >= node->value){
+                        node = node->next;
+                    }
+                    
+                    addedNode -> next = node; 
+                    addedNode -> previous = node->previous;
+                    node -> previous -> next = addedNode; 
+                    node -> previous = addedNode; 
+
+                    len++;
+                    return;
+                // }
                
             }
         }
@@ -344,6 +387,8 @@ class Priority_queue_map{
                
         }
 
+        
+
         int getLen(){
             return len;
         }
@@ -363,45 +408,45 @@ class Priority_queue_map{
         
 };
 
-int main(){
+// int main(){
 
-    Priority_queue_map map;
+//     Priority_queue_map map;
 
-    map.add(10, 300);
-    map.add(0, 100);
-    map.add(50, 500);
-    map.add(5, 200);
-    map.add(25, 400);
-    map.add(25, 400);
-    map.add(25, 1000);
+//     map.add_with_key(10, 300);
+//     map.add_with_key(0, 100);
+//     map.add_with_key(50, 500);
+//     map.add_with_key(5, 200);
+//     map.add_with_key(25, 400);
+//     map.add_with_key(25, 400);
+//     map.add_with_key(25, 1000);
     
     
-    map.print();
+//     map.print();
 
-    map.pop_back();
-    map.pop_back();
-    // cout << map.pop_back()->value << "\n";
+//     map.pop_back();
+//     map.pop_back();
+//     // cout << map.pop_back()->value << "\n";
 
-    map.print();
-    Priority_queue_map map2;
+//     map.print();
+//     Priority_queue_map map2;
 
-    map2.add_tail(10, 300);
-    map2.add_tail(0, 100);
-    map2.add_tail(50, 500);
-    map2.add_tail(5, 200);
-    map2.add_tail(25, 400);
-    map2.add_tail(25, 500);
-    map2.add_tail(25, 600);
-    map2.add_tail(25, 700);
-    map2.print();
+//     // map2.add_tail(10, 300);
+//     // map2.add_tail(0, 100);
+//     // map2.add_tail(50, 500);
+//     // map2.add_tail(5, 200);
+//     // map2.add_tail(25, 400);
+//     // map2.add_tail(25, 500);
+//     // map2.add_tail(25, 600);
+//     // map2.add_tail(25, 700);
+//     // map2.print();
 
 
-    if(map == map2){
-        cout << "True" << endl;
-    }else{
-        cout << "False" << endl;
-    }
+//     // if(map == map2){
+//     //     cout << "True" << endl;
+//     // }else{
+//     //     cout << "False" << endl;
+//     // }
 
-    return 0;
+//     return 0;
 
-}
+// }
