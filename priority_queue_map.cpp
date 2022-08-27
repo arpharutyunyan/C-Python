@@ -113,9 +113,8 @@ class Priority_queue_map{
             if(isEmpty()){          
                 head = tail = new Node(k, v);         // create the first element
                 len++;
-            // }else if(find(k)){
-            //     address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
-            // }
+            }else if(find(k)){
+                address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
             }else{
                 Node* node = new Node(k, v);
                 tail -> next = node;
@@ -179,9 +178,8 @@ class Priority_queue_map{
             if(isEmpty()){                   // create the first element
                 head = tail = new Node(k, v);
                 len++;
-            // }else if(find(k)){
-            //     address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
-            // }
+            }else if(find(k)){
+                address_of_repeated_key -> value = v;    // check if keys repeated, change only the value
             }else{
                 Node* node = new Node(k, v);
                 head -> previous = node;

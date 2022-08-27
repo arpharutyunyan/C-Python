@@ -366,9 +366,9 @@ int main(){
     map.add(Specialist("B", "BBB", 50, 100), 50);
     map.add(Specialist("B", "BBBB", 150, 100), 150);
 
-    cout<<map;
+    
 
-    // map.print();
+    map.print();
 
     // cout << "-----------find--------------- \n\n";
     // cout << map.find(Specialist("Z", "ZZ", 12, 100))->value << endl;
