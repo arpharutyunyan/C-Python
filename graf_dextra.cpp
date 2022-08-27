@@ -144,7 +144,17 @@ class Priority_queue_map{
         }        
 };
 
+//  check if given array contains the target key (gagat) 
 
+bool find_checking(int arr[], int size, int target){
+    for(int i=0; i< size; ++i){
+        if(arr[i] == target){
+            return true;
+        }
+    }
+
+    return false;
+}
 
 int main(){
 
@@ -185,18 +195,22 @@ int main(){
 
     int weights[row] = {};
 
+    int checked[row] = {-1}; // there is not -1 city
+
     // add first weights
     for(int i=0; i<row; i++){
         weights[i] = INT_MAX;
         // cout << weights[i] << "\t";
     }
 
-    int start_index = 2;
+    int start_index = 2;  // start is Gyumri
     int finish_index = 1;
-    weights[start_index] = 0; // start is Gyumri
+    weights[start_index] = 0; // add first weight
 
     Node node(start_index, 0);
-    pq.add_with_value(node.key, node.value);
+    pq.add_with_value(node.key, node.value); // add first node in pq
+    checked[start_index] = start_index;  // add first checked gagat
+
 
     while (!pq.isEmpty()){
 
@@ -208,53 +222,30 @@ int main(){
 
         for (int i=0; i<row; i++){
            if(incidence[pop.key][i] > 0){
-                int value = weights[pop.key] + incidence[pop.key][i];
-                weights[i] = value;
-                pq.add_with_value(i, value);
+        
+                bool is_checked = find_checking(checked, row, i);
+                if(!is_checked){
+                    checked[i] = i; // add to checked array
+                    int value = weights[pop.key] + incidence[pop.key][i]; // update value for weights
+                    if(value < weights[i]){
+                        weights[i] = value;
+                    }
+                    
+                    pq.add_with_value(i, weights[i]); 
+                }
+
+                               
            }
         }
 
-        // pop = pq.pop();
-        // weights[pop.key] = pop.value;
-        // break;
+        cout << "key = " << pop.key << endl;
+        pq.print();
         
     }
     
     for(int i=0; i<row; i++){
-        cout << weights[i] << "\t";
+        cout << "weights[" << i << "] = " << weights[i] << endl;
     }
-    // show realtion
-    // for(int i=0; i<row; i++){
-
-    //     cout << cities[i] << "  -> [";
-    //     for(int j=0; j<col; j++){
-
-            
-    //         if(relation[i][j] > 0){
-    //             cout << cities[j] << ", ";
-    //         }
-            
-    //     }
-
-    //     cout << "]" << endl << endl;
-        
-    // }
-
-    // add to priority queue
-    // for(int i=0; i<row; i++){
-
-    //     for(int j=0; j<col; j++){
-
-            
-    //         if(incidence[i][j] > 0){
-               
-    //             pq.add_with_value(i, incidence[i][j]);
-    //         }
-            
-    //     }        
-    // }
-
-    pq.print();
 
     return 0;
 }
