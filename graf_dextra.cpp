@@ -274,9 +274,9 @@ int main(){
     }
 
     
-    for(int i=0; i<row; i++){
-        cout << "past_way[" << i << "] = " << past_way[i] << endl;
-    }
+    // for(int i=0; i<row; i++){
+    //     cout << "past_way[" << i << "] = " << past_way[i] << endl;
+    // }
 
     return 0;
 }
