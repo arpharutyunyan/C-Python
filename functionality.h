@@ -36,6 +36,16 @@ void fill_weights(){
     }
 }
 
+void fill_checked(){
+    /*
+        In first, array of checked must contain tha false value
+    */
+
+    for(int i=0; i<row; i++){
+        checked[i] = false;
+    }
+}
+
 void print_passed_way(int start_index, int finish_index){
     /*
         Print passed way from destination to start city

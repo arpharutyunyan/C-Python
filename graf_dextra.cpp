@@ -20,8 +20,8 @@ int main(int argc, char** argv){
 
         if(start_index!= -1 and finish_index!=-1){
 
-            // add first weights
-            fill_weights();
+            fill_weights(); //fill weights with max integer
+            fill_checked(); //fill checked array with false
 
             weights[start_index] = 0; // add first weight
 

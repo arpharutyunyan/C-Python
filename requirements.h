@@ -24,6 +24,6 @@ const string cities[9] = {"ashtarak", "yerevan", "gyumri", "artashat", "yeghvard
 
 int weights[row] = {};
 
-bool checked[row] = {false}; // first the all cityies is not checked
+bool checked[row] = {}; // first the all cityies is not checked
 
 int passed_way[row] = {0};
