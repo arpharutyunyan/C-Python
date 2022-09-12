@@ -62,11 +62,7 @@ class Bst_map{
     public:
 
         Node<Key, Value>* parent = nullptr;
-        // Comparator<Key>* comparator;
 
-        // Bst_map(Comparator<Key>* c){
-        //     this->comparator = c;
-        // };
         int (* comparator)(const Key& a, const Key& b);
 
         Bst_map(int (* c)(const Key& a, const Key& b)){
