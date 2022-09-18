@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class Pesron{
+struct Pesron{
 
     public:
         string name;
@@ -12,10 +12,10 @@ class Pesron{
 
         Pesron(){};
 
-        Pesron(string name, string surname, int age){
-            this->name = name;
-            this->surname = surname;
-            this->age = age;
+        Pesron(string name, string surname, int age): name(name), surname(surname), age(age){
+            // this->name = name;
+            // this->surname = surname;
+            // this->age = age;
         }
 
         friend ostream& operator<<(ostream& print, Pesron& per){

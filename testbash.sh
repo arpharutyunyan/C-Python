@@ -1,6 +1,8 @@
 #! /usr/bin/bash
 
-ls
-pwd
+# ls
+# pwd
 
-touch bash.txt
+# touch bash.txt
+
+top 

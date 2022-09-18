@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-class Node{
+struct Node{
 
     public:
         int value = 0;
